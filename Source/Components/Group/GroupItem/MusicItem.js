@@ -25,19 +25,33 @@ class MusicItemClass extends React.Component {
 	render() {
 		const { ApiResult } = this.state;
 
-		const MusicImage = () => (
-			<Avatar
-				ImageComponent={ImageBackground}
-				shape="square"
-				source={{
-					uri: ApiResult.ImagePathDeezer
-						? ApiResult.ImagePathDeezer
-						: `data:image/jpeg;base64,${ApiResult.Image.toString(
-								'base64',
-						  )}`,
-				}}
-			/>
-		);
+		let MusicImage;
+
+		if (ApiResult) {
+			if (ApiResult.ImagePathDeezer || ApiResult.Image) {
+				MusicImage = () => (
+					<Avatar
+						ImageComponent={ImageBackground}
+						shape="square"
+						source={{
+							uri: ApiResult.ImagePathDeezer
+								? ApiResult.ImagePathDeezer
+								: `data:image/jpeg;base64,${ApiResult.Image.toString(
+										'base64',
+								  )}`,
+						}}
+					/>
+				);
+			} else {
+				MusicImage = () => (
+					<Avatar
+						ImageComponent={ImageBackground}
+						shape="square"
+						source={require('../../../Assets/noMusic.jpg')}
+					/>
+				);
+			}
+		}
 
 		return (
 			<ListItem
