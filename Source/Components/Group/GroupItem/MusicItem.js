@@ -1,5 +1,6 @@
 import React from 'react';
-import { ListItem } from '@ui-kitten/components';
+import { ListItem, Avatar } from '@ui-kitten/components';
+import { ImageBackground } from 'react-native';
 import { GetMusicById } from '../../../Api/Music/Music';
 
 class MusicItemClass extends React.Component {
@@ -24,10 +25,25 @@ class MusicItemClass extends React.Component {
 	render() {
 		const { ApiResult } = this.state;
 
+		const MusicImage = () => (
+			<Avatar
+				ImageComponent={ImageBackground}
+				shape="square"
+				source={{
+					uri: ApiResult.ImagePathDeezer
+						? ApiResult.ImagePathDeezer
+						: `data:image/jpeg;base64,${ApiResult.Image.toString(
+								'base64',
+						  )}`,
+				}}
+			/>
+		);
+
 		return (
 			<ListItem
 				title={ApiResult ? ApiResult.Title : 'Loading'}
 				description={ApiResult ? ApiResult.Artist : 'Loading'}
+				accessoryLeft={ApiResult ? MusicImage : undefined}
 			/>
 		);
 	}
