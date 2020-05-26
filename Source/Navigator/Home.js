@@ -8,6 +8,7 @@ import {
 import { SearchScreen } from '../Screen/SearchScreen';
 import { AccountScreen } from '../Screen/AccountScreen';
 import { SuggestionScreen } from '../Screen/SuggestionScreen';
+import { PreferenceScreen } from '../Screen/PreferenceScreen';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -16,6 +17,8 @@ const SearchIcon = (props) => <Icon {...props} name="search-outline" />;
 const SuggestionIcon = (props) => <Icon {...props} name="bulb-outline" />;
 
 const AccountIcon = (props) => <Icon {...props} name="person-outline" />;
+
+const SettingsIcon = (props) => <Icon {...props} name="settings-outline" />;
 
 const useBottomNavigationState = (initialState = 0) => {
 	const [selectedIndex, setSelectedIndex] = React.useState(initialState);
@@ -29,6 +32,7 @@ const BottomTabBar = ({ navigation, state }) => (
 		<BottomNavigationTab icon={SearchIcon} />
 		<BottomNavigationTab icon={SuggestionIcon} />
 		<BottomNavigationTab icon={AccountIcon} />
+		<BottomNavigationTab icon={SettingsIcon} />
 	</BottomNavigation>
 );
 
@@ -39,5 +43,6 @@ export const HomeNavigator = () => (
 		<Screen name="Search" component={SearchScreen} />
 		<Screen name="Suggestion" component={SuggestionScreen} />
 		<Screen name="Account" component={AccountScreen} />
+		<Screen name="Preference" component={PreferenceScreen} />
 	</Navigator>
 );

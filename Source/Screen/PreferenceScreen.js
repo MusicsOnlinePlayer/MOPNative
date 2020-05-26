@@ -1,0 +1,63 @@
+import React from 'react';
+import { Layout, Input, Icon, Button } from '@ui-kitten/components';
+import AsyncStorage from '@react-native-community/async-storage';
+
+const SaveIcon = (props) => <Icon {...props} name="save-outline" />;
+
+export class PreferenceScreen extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			IpValue: '',
+		};
+	}
+
+	componentDidMount() {
+		AsyncStorage.getItem('MOPServerIP')
+			.then((IpValue) => {
+				this.setState({
+					IpValue,
+				});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
+
+	OnIpFieldChange = (IpValue) => {
+		this.setState({
+			IpValue,
+		});
+	};
+
+	SaveIpToStorage = async () => {
+		try {
+			await AsyncStorage.setItem('MOPServerIP', this.state.IpValue);
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
+	OnSave = () => {
+		this.SaveIpToStorage();
+	};
+
+	render() {
+		const { IpValue } = this.state;
+
+		return (
+			<Layout style={{ height: '100%', padding: '2%' }}>
+				<Input
+					value={IpValue}
+					label="Mop Server Ip"
+					placeholder="Enter a valid ip address"
+					onChangeText={this.OnIpFieldChange}
+				/>
+
+				<Button onPress={this.OnSave} accessoryLeft={SaveIcon}>
+					Save
+				</Button>
+			</Layout>
+		);
+	}
+}
