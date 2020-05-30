@@ -58,11 +58,11 @@ export function GetAccount() {
 			.then((url) => {
 				Axios.get(`${url}/User/Me`)
 					.then((res) => {
-						resolve(res.data.account);
+						resolve(res.data.Account);
 					})
 					.catch((err) => {
 						console.warn(err);
-						reject(Error('Cannot logout'));
+						reject(Error('Cannot get account'));
 					});
 			})
 			.catch((err) => reject(err));

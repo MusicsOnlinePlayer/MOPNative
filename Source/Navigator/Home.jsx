@@ -45,7 +45,7 @@ BottomTabBar.propTypes = {
 	}).isRequired,
 	state: PropTypes.shape({
 		index: PropTypes.number,
-		routeNames: PropTypes.string
+		routeNames: PropTypes.arrayOf(PropTypes.string)
 	}).isRequired,
 };
 

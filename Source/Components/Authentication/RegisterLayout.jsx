@@ -32,6 +32,7 @@ function RegisterLayoutConnected({
 					SetStatus('success');
 					dispatch(LogMyAccount());
 					OnRegisterSuccess();
+					SetStatus('primary');
 				} else {
 					SetStatus('warning');
 				}

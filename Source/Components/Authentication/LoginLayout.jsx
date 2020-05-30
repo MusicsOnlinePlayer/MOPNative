@@ -28,6 +28,7 @@ function LoginLayoutConnected({ ChangeToRegister, OnLoginSuccess, dispatch }) {
 					SetStatus('success');
 					dispatch(LogMyAccount());
 					OnLoginSuccess();
+					SetStatus('primary');
 				} else {
 					SetStatus('warning');
 				}

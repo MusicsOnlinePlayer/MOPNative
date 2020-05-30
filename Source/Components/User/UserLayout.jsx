@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Layout, Button, Text } from '@ui-kitten/components';
 import { View } from 'react-native';
@@ -6,19 +6,25 @@ import { Header } from './UserExtras/Header';
 import { Logout, GetAccount } from '../../Api/Authentication/Auth';
 
 export function UserLayout({ IsLogged, OnRedirectLogin }) {
-	const [account, setAccount] = useState(undefined);
+	const [account, setAccount] = React.useState(undefined);
 
-	useEffect(() => {
-		GetAccount()
-			.then((ApiAccount) => {
-				setAccount(ApiAccount);
-			})
-			.catch(() => {});
+	React.useEffect(() => {
+		if (!account) {
+			GetAccount()
+				.then((ApiAccount) => {
+					setAccount(ApiAccount);
+				})
+				.catch(() => {
+					setAccount(undefined);
+					OnRedirectLogin();
+				});
+		}
 	});
 
 	const OnLogoutPress = () => {
 		Logout()
 			.then(() => {
+				setAccount(undefined);
 				OnRedirectLogin();
 			})
 			.catch(() => {});
