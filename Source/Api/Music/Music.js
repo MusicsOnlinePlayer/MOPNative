@@ -5,12 +5,12 @@ export function GetMusicById(id) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
 			.then((url) => {
-				Axios.get(url + '/Music/Music/id/' + id)
+				Axios.get(`${url}/Music/Music/id/${id}`)
 					.then((res) => {
 						resolve(res.data);
 					})
 					.catch((err) => {
-						console.log(err);
+						console.warn(err);
 						reject(err);
 					});
 			})

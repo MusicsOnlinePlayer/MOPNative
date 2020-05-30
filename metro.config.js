@@ -23,4 +23,7 @@ module.exports = MetroConfig.create(evaConfig, {
 			},
 		}),
 	},
+	resolver: {
+		sourceExts: ['jsx', 'js', 'json', 'ts', 'tsx'],
+	},
 });

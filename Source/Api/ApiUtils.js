@@ -5,9 +5,8 @@ export async function GetApiAddress() {
 		const value = await AsyncStorage.getItem('MOPServerIP');
 		if (value !== null) {
 			return value;
-		} else {
-			throw Error('No ip stored in local storage');
 		}
+		throw Error('No ip stored in local storage');
 	} catch (e) {
 		console.error(e);
 		throw e;

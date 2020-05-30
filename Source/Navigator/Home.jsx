@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
 	BottomNavigation,
@@ -27,8 +28,10 @@ const useBottomNavigationState = (initialState = 0) => {
 
 const BottomTabBar = ({ navigation, state }) => (
 	<BottomNavigation
+		appearance="noIndicator"
 		selectedIndex={state.index}
-		onSelect={(index) => navigation.navigate(state.routeNames[index])}>
+		onSelect={(index) => navigation.navigate(state.routeNames[index])}
+	>
 		<BottomNavigationTab icon={SearchIcon} />
 		<BottomNavigationTab icon={SuggestionIcon} />
 		<BottomNavigationTab icon={AccountIcon} />
@@ -36,10 +39,21 @@ const BottomTabBar = ({ navigation, state }) => (
 	</BottomNavigation>
 );
 
+BottomTabBar.propTypes = {
+	navigation: PropTypes.shape({
+		navigate: PropTypes.func,
+	}).isRequired,
+	state: PropTypes.shape({
+		index: PropTypes.number,
+		routeNames: PropTypes.string
+	}).isRequired,
+};
+
 export const HomeNavigator = () => (
 	<Navigator
 		{...useBottomNavigationState()}
-		tabBar={(props) => <BottomTabBar {...props} />}>
+		tabBar={(props) => <BottomTabBar {...props} />}
+	>
 		<Screen name="Search" component={SearchScreen} />
 		<Screen name="Suggestion" component={SuggestionScreen} />
 		<Screen name="Account" component={AccountScreen} />

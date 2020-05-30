@@ -1,9 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ListItem, Avatar } from '@ui-kitten/components';
 import { ImageBackground } from 'react-native';
 import { GetMusicById } from '../../../Api/Music/Music';
 
 class MusicItemClass extends React.Component {
+	static propTypes = {
+		id: PropTypes.string.isRequired,
+	}
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -37,8 +42,8 @@ class MusicItemClass extends React.Component {
 							uri: ApiResult.ImagePathDeezer
 								? ApiResult.ImagePathDeezer
 								: `data:image/jpeg;base64,${ApiResult.Image.toString(
-										'base64',
-								  )}`,
+									'base64',
+								)}`,
 						}}
 					/>
 				);
@@ -63,7 +68,11 @@ class MusicItemClass extends React.Component {
 	}
 }
 
-export const MusicItem = ({ item }) => {
-	//! really weird
-	return <MusicItemClass id={item.id} />;
+//! Weird
+export const MusicItem = ({ item }) => <MusicItemClass id={item.id} />;
+
+MusicItem.propTypes = {
+	item: PropTypes.shape({
+		id: PropTypes.string,
+	}).isRequired,
 };
