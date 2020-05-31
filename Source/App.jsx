@@ -8,7 +8,6 @@ import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { HomeNavigator } from './Navigator/Home';
 import RootReducer from './Reducers/RootReducer';
-import { PlayerOverlay } from './Components/Player/PlayerOverlay';
 
 
 const store = createStore(
@@ -25,7 +24,6 @@ export default () => (
 		<ApplicationProvider {...eva} theme={eva.dark}>
 			<NavigationContainer>
 				<HomeNavigator />
-				<PlayerOverlay />
 			</NavigationContainer>
 		</ApplicationProvider>
 	</Provider>

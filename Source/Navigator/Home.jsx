@@ -6,6 +6,8 @@ import {
 	BottomNavigationTab,
 	Icon,
 } from '@ui-kitten/components';
+import { View } from 'react-native';
+import { PlayerOverlay } from '../Components/Player/PlayerOverlay';
 import { SearchScreen } from '../Screen/SearchScreen';
 import { AccountScreen } from '../Screen/AccountScreen';
 import { SuggestionScreen } from '../Screen/SuggestionScreen';
@@ -27,16 +29,21 @@ const useBottomNavigationState = (initialState = 0) => {
 };
 
 const BottomTabBar = ({ navigation, state }) => (
-	<BottomNavigation
-		appearance="noIndicator"
-		selectedIndex={state.index}
-		onSelect={(index) => navigation.navigate(state.routeNames[index])}
-	>
-		<BottomNavigationTab icon={SearchIcon} />
-		<BottomNavigationTab icon={SuggestionIcon} />
-		<BottomNavigationTab icon={AccountIcon} />
-		<BottomNavigationTab icon={SettingsIcon} />
-	</BottomNavigation>
+	<>
+		<View style={{ position: 'relative' }}>
+			<PlayerOverlay />
+		</View>
+		<BottomNavigation
+			appearance="noIndicator"
+			selectedIndex={state.index}
+			onSelect={(index) => navigation.navigate(state.routeNames[index])}
+		>
+			<BottomNavigationTab icon={SearchIcon} />
+			<BottomNavigationTab icon={SuggestionIcon} />
+			<BottomNavigationTab icon={AccountIcon} />
+			<BottomNavigationTab icon={SettingsIcon} />
+		</BottomNavigation>
+	</>
 );
 
 BottomTabBar.propTypes = {
@@ -45,7 +52,7 @@ BottomTabBar.propTypes = {
 	}).isRequired,
 	state: PropTypes.shape({
 		index: PropTypes.number,
-		routeNames: PropTypes.arrayOf(PropTypes.string)
+		routeNames: PropTypes.arrayOf(PropTypes.string),
 	}).isRequired,
 };
 

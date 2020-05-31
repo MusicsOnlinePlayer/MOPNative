@@ -12,9 +12,10 @@ class PlayerOverlay extends React.Component {
 		return (
 			<View style={{
 				position: 'absolute',
-				left: '2%',
-				right: '2%',
-				bottom: '9%',
+				left: 0,
+				right: 0,
+				bottom: 0,
+				padding: '2%',
 				alignItems: 'center',
 			}}
 			>
