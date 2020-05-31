@@ -45,7 +45,7 @@ export class SearchScreen extends React.Component {
 			<>
 				<TopBar subtitle="Search" />
 
-				<Layout style={{ height: '100%', padding: '2%' }}>
+				<Layout style={{ height: '100%', padding: '2%' }} level="2">
 					<Input
 						value={SearchValue}
 						placeholder="Search for musics"

@@ -57,7 +57,7 @@ export class PreferenceScreen extends React.Component {
 			<>
 				<TopBar subtitle="Preference" />
 
-				<Layout style={{ height: '100%', padding: '2%' }}>
+				<Layout style={{ height: '100%', padding: '2%' }} level="2">
 					<Input
 						value={IpValue}
 						label="Mop Server Ip"

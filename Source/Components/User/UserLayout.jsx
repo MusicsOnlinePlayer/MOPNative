@@ -32,7 +32,7 @@ export function UserLayout({ IsLogged, OnRedirectLogin }) {
 
 	if (IsLogged && account) {
 		return (
-			<Layout style={{ height: '100%' }}>
+			<Layout style={{ height: '100%' }} level="2">
 				<Header Username={account.username} Email="Coming soon" />
 				<View style={{ padding: 16 }}>
 					<Button onPress={OnLogoutPress}>Logout</Button>
@@ -41,7 +41,7 @@ export function UserLayout({ IsLogged, OnRedirectLogin }) {
 		);
 	}
 	return (
-		<Layout style={{ height: '100%' }}>
+		<Layout style={{ height: '100%' }} level="2">
 			<View style={{ padding: 16 }}>
 				<Text category="h1">Not logged</Text>
 				<Button onPress={OnRedirectLogin}>Login</Button>

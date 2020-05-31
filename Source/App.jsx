@@ -8,11 +8,13 @@ import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { HomeNavigator } from './Navigator/Home';
 import RootReducer from './Reducers/RootReducer';
+import { PlayerOverlay } from './Components/Player/PlayerOverlay';
+
 
 const store = createStore(
 	RootReducer,
-	window.__REDUX_DEVTOOLS_EXTENSION__ &&
-		window.__REDUX_DEVTOOLS_EXTENSION__(),
+	window.__REDUX_DEVTOOLS_EXTENSION__
+		&& window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
 
 Axios.defaults.withCredentials = true;
@@ -23,6 +25,7 @@ export default () => (
 		<ApplicationProvider {...eva} theme={eva.dark}>
 			<NavigationContainer>
 				<HomeNavigator />
+				<PlayerOverlay />
 			</NavigationContainer>
 		</ApplicationProvider>
 	</Provider>

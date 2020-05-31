@@ -30,6 +30,7 @@
 		"react-native-safe-area-context": "^2.0.0",
 		"react-native-screens": "^2.8.0",
 		"react-native-svg": "^12.1.0",
+		"react-native-track-player": "^1.2.3",
 		"react-redux": "^7.2.0",
 		"redux": "^4.0.5"
 	},

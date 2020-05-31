@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ListItem, Avatar } from '@ui-kitten/components';
 import { ImageBackground } from 'react-native';
-import { GetMusicById } from '../../../Api/Music/Music';
+import { GetMusicById, GetFilePathById } from '../../../Api/Music/Music';
+import TrackPlayer from '../../Player/TrackPlayer';
 
 class MusicItemClass extends React.Component {
 	static propTypes = {
@@ -25,6 +26,18 @@ class MusicItemClass extends React.Component {
 				});
 			})
 			.catch();
+	}
+
+	onPress = () => {
+		const { ApiResult } = this.state;
+
+		if (ApiResult) {
+			GetFilePathById(ApiResult._id)
+				.then((FilePath) => {
+					console.log(FilePath);
+					TrackPlayer.getInstance().AddAndPlay(ApiResult, FilePath);
+				});
+		}
 	}
 
 	render() {
@@ -60,6 +73,9 @@ class MusicItemClass extends React.Component {
 
 		return (
 			<ListItem
+				style={{ backgroundColor: 'transparent' }}
+				level="2"
+				onPress={this.onPress}
 				title={ApiResult ? ApiResult.Title : 'Loading'}
 				description={ApiResult ? ApiResult.Artist : 'Loading'}
 				accessoryLeft={ApiResult ? MusicImage : undefined}

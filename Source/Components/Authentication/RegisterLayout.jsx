@@ -51,6 +51,7 @@ function RegisterLayoutConnected({
 				paddingRight: '6%',
 				paddingTop: '2%',
 			}}
+			level="2"
 		>
 			<Input
 				label="Username"

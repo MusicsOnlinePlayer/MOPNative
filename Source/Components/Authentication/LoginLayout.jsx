@@ -47,6 +47,7 @@ function LoginLayoutConnected({ ChangeToRegister, OnLoginSuccess, dispatch }) {
 				paddingRight: '6%',
 				paddingTop: '2%',
 			}}
+			level="2"
 		>
 			<Input
 				label="Username"
