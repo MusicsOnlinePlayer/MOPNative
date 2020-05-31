@@ -44,6 +44,11 @@ class TrackPlayer {
 
 	AddAndPlay = async (MusicFromApi, url) => {
 		await RNTrackPlayer.reset();
+		await this.Add(MusicFromApi, url);
+		await RNTrackPlayer.play();
+	}
+
+	Add = async (MusicFromApi, url) => {
 		await RNTrackPlayer.add({
 			id: MusicFromApi._id,
 			url,
@@ -52,7 +57,6 @@ class TrackPlayer {
 			artist: MusicFromApi.Artist,
 			artwork: MusicFromApi.ImagePathDeezer,
 		});
-		await RNTrackPlayer.play();
 	}
 }
 
