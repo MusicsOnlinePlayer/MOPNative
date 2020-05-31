@@ -9,7 +9,7 @@ class PlayerSmallControls extends React.Component {
 		super(props);
 		this.state = {
 			title: '',
-			album: '',
+			artist: '',
 			ImageUrl: '',
 		};
 	}
@@ -23,7 +23,7 @@ class PlayerSmallControls extends React.Component {
 						console.log(data);
 						this.setState({
 							title: data.title,
-							album: data.album,
+							artist: data.artist,
 							ImageUrl: data.artwork,
 						});
 					}
@@ -34,7 +34,7 @@ class PlayerSmallControls extends React.Component {
 	render() {
 		const {
 			title,
-			album,
+			artist,
 			ImageUrl,
 		} = this.state;
 		if (title) {
@@ -51,7 +51,7 @@ class PlayerSmallControls extends React.Component {
 			return (
 				<ListItem
 					title={title}
-					description={album}
+					description={artist}
 					accessoryRight={PlayPauseToggle}
 					accessoryLeft={MusicImage}
 				/>
