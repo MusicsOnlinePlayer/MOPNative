@@ -15,20 +15,24 @@ class PlayerSmallControls extends React.Component {
 	}
 
 	componentDidMount() {
+		this.UpdateMusicDetails();
 		TrackPlayer.getInstance().AddEvent('playback-track-changed', async () => {
-			TrackPlayer.getInstance()
-				.GetCurrentTrack()
-				.then((data) => {
-					if (data) {
-						console.log(data);
-						this.setState({
-							title: data.title,
-							artist: data.artist,
-							ImageUrl: data.artwork,
-						});
-					}
-				});
+			this.UpdateMusicDetails();
 		});
+	}
+
+	UpdateMusicDetails = () => {
+		TrackPlayer.getInstance()
+			.GetCurrentTrack()
+			.then((data) => {
+				if (data) {
+					this.setState({
+						title: data.title,
+						artist: data.artist,
+						ImageUrl: data.artwork,
+					});
+				}
+			});
 	}
 
 	render() {

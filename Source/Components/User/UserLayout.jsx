@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Layout, Button, Text } from '@ui-kitten/components';
 import { View } from 'react-native';
 import { Header } from './UserExtras/Header';
 import { Logout, GetAccount } from '../../Api/Authentication/Auth';
+import { LogMyAccount, LogOutMyAccount } from '../../Action/AccountAction';
 
-export function UserLayout({ IsLogged, OnRedirectLogin }) {
+const mapStateToProps = (state) => ({
+	IsLogged: state.UserAccountReducer.IsLogged,
+});
+
+function UserLayoutConnected({ IsLogged, OnRedirectLogin, dispatch }) {
 	const [account, setAccount] = React.useState(undefined);
 
 	React.useEffect(() => {
@@ -13,9 +19,11 @@ export function UserLayout({ IsLogged, OnRedirectLogin }) {
 			GetAccount()
 				.then((ApiAccount) => {
 					setAccount(ApiAccount);
+					if (ApiAccount) dispatch(LogMyAccount());
 				})
 				.catch(() => {
 					setAccount(undefined);
+					dispatch(LogOutMyAccount());
 					OnRedirectLogin();
 				});
 		}
@@ -50,7 +58,13 @@ export function UserLayout({ IsLogged, OnRedirectLogin }) {
 	);
 }
 
-UserLayout.propTypes = {
+
+UserLayoutConnected.propTypes = {
 	IsLogged: PropTypes.bool.isRequired,
 	OnRedirectLogin: PropTypes.func.isRequired,
+	dispatch: PropTypes.func.isRequired,
 };
+
+const UserLayout = connect(mapStateToProps)(UserLayoutConnected);
+
+export { UserLayout };

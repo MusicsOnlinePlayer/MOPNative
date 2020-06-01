@@ -17,14 +17,12 @@ class PlayPauseToggleClass extends React.Component {
 
 	componentDidMount() {
 		this._IsMounted = true;
-		TrackPlayer.getInstance().AddEvent('playback-state', async () => {
-			if (this._IsMounted) {
-				this.setState({
-					IsPlaying: await TrackPlayer.getInstance().IsPlaying(),
-				});
-			}
+		this.UpdatePlayingState();
+		TrackPlayer.getInstance().AddEvent('playback-state', () => {
+			this.UpdatePlayingState();
 		});
 	}
+
 
 	componentWillUnmount() {
 		this._IsMounted = false;
@@ -34,6 +32,14 @@ class PlayPauseToggleClass extends React.Component {
 		const { IsPlaying } = this.state;
 		IsPlaying ? TrackPlayer.getInstance().Pause() : TrackPlayer.getInstance().Play();
 	};
+
+	async UpdatePlayingState() {
+		if (this._IsMounted) {
+			this.setState({
+				IsPlaying: await TrackPlayer.getInstance().IsPlaying(),
+			});
+		}
+	}
 
 	render() {
 		const { IsPlaying } = this.state;

@@ -43,7 +43,7 @@ class TrackPlayer {
 	AddEvent = (type, cb) => RNTrackPlayer.addEventListener(type, cb)
 
 	AddAndPlay = async (MusicFromApi, url) => {
-		await RNTrackPlayer.reset();
+		await RNTrackPlayer.removeUpcomingTracks();
 		await this.Add(MusicFromApi, url);
 		await RNTrackPlayer.play();
 	}

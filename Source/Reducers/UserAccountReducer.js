@@ -1,4 +1,4 @@
-import { LOG_ACCOUNT } from '../Action/AccountAction';
+import { LOG_ACCOUNT, LOG_OUT_ACCOUNT } from '../Action/AccountAction';
 
 const InitialState = {
 	IsLogged: false,
@@ -9,7 +9,12 @@ export default function UserAccountReducer(state = InitialState, action) {
 	case LOG_ACCOUNT:
 		return {
 			...state,
-			IsLogged: action.IsLogged,
+			IsLogged: true,
+		};
+	case LOG_OUT_ACCOUNT:
+		return {
+			...state,
+			IsLogged: false,
 		};
 	default:
 		return state;
