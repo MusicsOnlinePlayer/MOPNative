@@ -12,27 +12,35 @@ class PlayerSmallControls extends React.Component {
 			artist: '',
 			ImageUrl: '',
 		};
+		this._IsMounted = false;
 	}
 
 	componentDidMount() {
+		this._IsMounted = true;
 		this.UpdateMusicDetails();
 		TrackPlayer.getInstance().AddEvent('playback-track-changed', async () => {
 			this.UpdateMusicDetails();
 		});
 	}
 
+	componentWillUnmount() {
+		this._IsMounted = false;
+	}
+
 	UpdateMusicDetails = () => {
-		TrackPlayer.getInstance()
-			.GetCurrentTrack()
-			.then((data) => {
-				if (data) {
-					this.setState({
-						title: data.title,
-						artist: data.artist,
-						ImageUrl: data.artwork,
-					});
-				}
-			});
+		if (this._IsMounted) {
+			TrackPlayer.getInstance()
+				.GetCurrentTrack()
+				.then((data) => {
+					if (data) {
+						this.setState({
+							title: data.title,
+							artist: data.artist,
+							ImageUrl: data.artwork,
+						});
+					}
+				});
+		}
 	}
 
 	render() {
