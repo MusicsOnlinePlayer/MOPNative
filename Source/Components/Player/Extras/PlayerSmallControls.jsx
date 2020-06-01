@@ -54,6 +54,7 @@ class PlayerSmallControls extends React.Component {
 
 			return (
 				<ListItem
+					style={{ zIndex: 1 }}
 					title={title}
 					description={artist}
 					accessoryRight={PlayPauseToggle}

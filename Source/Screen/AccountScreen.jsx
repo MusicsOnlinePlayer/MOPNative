@@ -9,7 +9,7 @@ const ScreenName = ['Login', 'Register', 'Account'];
 
 
 const AccountScreen = () => {
-	const [selectedIndex, setSelectedIndex] = React.useState(0);
+	const [selectedIndex, setSelectedIndex] = React.useState(2);
 
 	return (
 		<>

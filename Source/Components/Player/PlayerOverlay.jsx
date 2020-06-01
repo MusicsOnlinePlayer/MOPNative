@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { PlayerSmallControls } from './Extras/PlayerSmallControls';
+import { PlayerProgressBar } from './Extras/PlayerProgressBar';
 
 class PlayerOverlay extends React.Component {
 	constructor(props) {
@@ -19,6 +20,7 @@ class PlayerOverlay extends React.Component {
 				alignItems: 'center',
 			}}
 			>
+				<PlayerProgressBar />
 				<PlayerSmallControls />
 			</View>
 		);
