@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ListItem, Avatar } from '@ui-kitten/components';
-import { ImageBackground } from 'react-native';
+import { ListItem, Avatar, Spinner } from '@ui-kitten/components';
+import { ImageBackground, View } from 'react-native';
 import { GetMusicById, GetFilePathById } from '../../../Api/Music/Music';
 import TrackPlayer from '../../Player/TrackPlayer';
 
@@ -14,6 +14,7 @@ class MusicItemClass extends React.Component {
 		super(props);
 		this.state = {
 			ApiResult: undefined,
+			IsLoadingFilePath: false,
 		};
 	}
 
@@ -30,18 +31,18 @@ class MusicItemClass extends React.Component {
 
 	onPress = () => {
 		const { ApiResult } = this.state;
-
 		if (ApiResult) {
+			this.setState({ IsLoadingFilePath: true });
 			GetFilePathById(ApiResult._id)
 				.then((FilePath) => {
-					console.log(FilePath);
+					this.setState({ IsLoadingFilePath: false });
 					TrackPlayer.getInstance().AddAndPlay(ApiResult, FilePath);
 				});
 		}
 	}
 
 	render() {
-		const { ApiResult } = this.state;
+		const { ApiResult, IsLoadingFilePath } = this.state;
 
 		let MusicImage;
 
@@ -67,6 +68,13 @@ class MusicItemClass extends React.Component {
 						shape="square"
 						source={require('../../../Assets/noMusic.jpg')}
 					/>
+				);
+			}
+
+			if (IsLoadingFilePath) {
+				MusicImage = () => (
+
+					<Spinner size="large" />
 				);
 			}
 		}
