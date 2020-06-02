@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ListItem, Avatar, Spinner } from '@ui-kitten/components';
-import { ImageBackground, View } from 'react-native';
+import { ImageBackground } from 'react-native';
 import { GetMusicById, GetFilePathById } from '../../../Api/Music/Music';
 import TrackPlayer from '../../Player/TrackPlayer';
 

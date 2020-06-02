@@ -1,4 +1,5 @@
 import RNTrackPlayer from 'react-native-track-player';
+import EventEmitter from 'events';
 
 class TrackPlayer {
 	static TrackPlayer;
@@ -30,6 +31,8 @@ class TrackPlayer {
 		};
 
 		RNTrackPlayer.updateOptions(options);
+
+		this.CustomEvents = new EventEmitter();
 	};
 
 	IsPlaying = async () => await RNTrackPlayer.getState() === RNTrackPlayer.STATE_PLAYING
@@ -57,6 +60,8 @@ class TrackPlayer {
 			artist: MusicFromApi.Artist,
 			artwork: MusicFromApi.ImagePathDeezer,
 		});
+
+		this.CustomEvents.emit('TrackAdded', MusicFromApi._id);
 	}
 }
 
