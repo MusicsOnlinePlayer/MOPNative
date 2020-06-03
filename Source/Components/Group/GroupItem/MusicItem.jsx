@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ListItem, Avatar, Spinner } from '@ui-kitten/components';
+import {
+	ListItem, Avatar, Spinner, Icon, Button,
+} from '@ui-kitten/components';
 import { ImageBackground } from 'react-native';
 import { GetMusicById, GetFilePathById } from '../../../Api/Music/Music';
 import TrackPlayer from '../../Player/TrackPlayer';
+
+const PlusIcon = (props) => <Icon {...props} name="plus-outline" />;
 
 class MusicItemClass extends React.Component {
 	static propTypes = {
@@ -41,10 +45,23 @@ class MusicItemClass extends React.Component {
 		}
 	}
 
+	OnAddPress = () => {
+		const { ApiResult } = this.state;
+		if (ApiResult) {
+			this.setState({ IsLoadingFilePath: true });
+			GetFilePathById(ApiResult._id)
+				.then((FilePath) => {
+					this.setState({ IsLoadingFilePath: false });
+					TrackPlayer.getInstance().Add(ApiResult, FilePath);
+				});
+		}
+	}
+
 	render() {
 		const { ApiResult, IsLoadingFilePath } = this.state;
 
-		let MusicImage;
+		let MusicImage; let
+			Controls;
 
 		if (ApiResult) {
 			if (ApiResult.ImagePathDeezer || ApiResult.Image) {
@@ -77,6 +94,8 @@ class MusicItemClass extends React.Component {
 					<Spinner size="large" />
 				);
 			}
+
+			Controls = () => (<Button onPress={this.OnAddPress} appearance="ghost" accessoryLeft={PlusIcon} />);
 		}
 
 		return (
@@ -87,6 +106,7 @@ class MusicItemClass extends React.Component {
 				title={ApiResult ? ApiResult.Title : 'Loading'}
 				description={ApiResult ? ApiResult.Artist : 'Loading'}
 				accessoryLeft={ApiResult ? MusicImage : undefined}
+				accessoryRight={ApiResult ? Controls : undefined}
 			/>
 		);
 	}
