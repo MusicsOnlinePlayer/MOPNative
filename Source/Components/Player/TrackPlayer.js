@@ -60,8 +60,13 @@ class TrackPlayer {
 			artist: MusicFromApi.Artist,
 			artwork: MusicFromApi.ImagePathDeezer,
 		});
+		const tracks = await this.GetTracksIds();
+		this.CustomEvents.emit('TrackAdded', tracks);
+	}
 
-		this.CustomEvents.emit('TrackAdded', MusicFromApi._id);
+	GetTracksIds = async () => {
+		const tracks = await RNTrackPlayer.getQueue();
+		return tracks.map(({ id }) => id);
 	}
 }
 

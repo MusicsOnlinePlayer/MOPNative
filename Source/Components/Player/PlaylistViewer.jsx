@@ -1,13 +1,37 @@
 import React from 'react';
+import TrackPlayer from './TrackPlayer';
+import MusicGroup from '../Group/MusicGroup';
 
 class PlaylistViewer extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			PlaylistIds: [],
+			IsFetching: false,
+		};
+	}
+
+	componentDidMount = async () => {
+		this.setState({ IsFetching: true });
+		this.setState({
+			PlaylistIds: await TrackPlayer.getInstance().GetTracksIds(),
+			IsFetching: false,
+		});
+		TrackPlayer.getInstance().CustomEvents.on('TrackAdded', this.NewTrackAdded);
+	}
+
+	componentWillUnmount() {
+		TrackPlayer.getInstance().CustomEvents.removeListener('TrackAdded', this.NewTrackAdded);
+	}
+
+	NewTrackAdded = (Tracks) => {
+		this.setState({ IsFetching: true });
+		this.setState({ PlaylistIds: Tracks, IsFetching: false });
 	}
 
 	render() {
-		return <></>;
+		const { PlaylistIds, IsFetching } = this.state;
+		return <MusicGroup MusicIds={PlaylistIds} IsFetching={IsFetching} />;
 	}
 }
 
