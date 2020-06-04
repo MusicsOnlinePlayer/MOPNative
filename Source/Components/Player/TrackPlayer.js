@@ -68,6 +68,10 @@ class TrackPlayer {
 		const tracks = await RNTrackPlayer.getQueue();
 		return tracks.map(({ id }) => id);
 	}
+
+	ChangePlayingTrack = async (id) => {
+		await RNTrackPlayer.skip(id);
+	}
 }
 
 export default TrackPlayer;

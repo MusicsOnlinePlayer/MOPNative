@@ -18,6 +18,7 @@ class MusicGroup extends React.Component {
 		DetailType: PropTypes.string,
 		MusicIds: PropTypes.arrayOf(PropTypes.string),
 		ShowDetailType: PropTypes.bool,
+		ContextType: PropTypes.string.isRequired,
 	}
 
 	static defaultProps = {
@@ -34,7 +35,7 @@ class MusicGroup extends React.Component {
 
 	render() {
 		const {
-			IsFetching, DetailType, MusicIds, ShowDetailType,
+			IsFetching, DetailType, MusicIds, ShowDetailType, ContextType,
 		} = this.props;
 
 		if (IsFetching) {
@@ -49,8 +50,7 @@ class MusicGroup extends React.Component {
 		}
 
 		if (MusicIds) {
-			const Musics = MusicIds.map((id) => ({ id }));
-
+			const Musics = MusicIds.map((id) => ({ ContextType, id }));
 			return (
 				<>
 					{!ShowDetailType || <Text category="h5">{DetailType}</Text>}

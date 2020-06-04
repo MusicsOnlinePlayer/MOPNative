@@ -6,12 +6,14 @@ import {
 import { ImageBackground } from 'react-native';
 import { GetMusicById, GetFilePathById } from '../../../Api/Music/Music';
 import TrackPlayer from '../../Player/TrackPlayer';
+import { CONTEXT_PLAYLIST } from '../Extras/Constants';
 
 const PlusIcon = (props) => <Icon {...props} name="plus-outline" />;
 
 class MusicItemClass extends React.Component {
 	static propTypes = {
 		id: PropTypes.string.isRequired,
+		ContextType: PropTypes.string.isRequired,
 	}
 
 	constructor(props) {
@@ -35,13 +37,18 @@ class MusicItemClass extends React.Component {
 
 	onPress = () => {
 		const { ApiResult } = this.state;
+		const { ContextType, id } = this.props;
 		if (ApiResult) {
-			this.setState({ IsLoadingFilePath: true });
-			GetFilePathById(ApiResult._id)
-				.then((FilePath) => {
-					this.setState({ IsLoadingFilePath: false });
-					TrackPlayer.getInstance().AddAndPlay(ApiResult, FilePath);
-				});
+			if (ContextType !== CONTEXT_PLAYLIST) {
+				this.setState({ IsLoadingFilePath: true });
+				GetFilePathById(ApiResult._id)
+					.then((FilePath) => {
+						this.setState({ IsLoadingFilePath: false });
+						TrackPlayer.getInstance().AddAndPlay(ApiResult, FilePath);
+					});
+			} else {
+				TrackPlayer.getInstance().ChangePlayingTrack(id);
+			}
 		}
 	}
 
@@ -59,6 +66,7 @@ class MusicItemClass extends React.Component {
 
 	render() {
 		const { ApiResult, IsLoadingFilePath } = this.state;
+		const { ContextType } = this.props;
 
 		let MusicImage; let
 			Controls;
@@ -106,17 +114,23 @@ class MusicItemClass extends React.Component {
 				title={ApiResult ? ApiResult.Title : 'Loading'}
 				description={ApiResult ? ApiResult.Artist : 'Loading'}
 				accessoryLeft={ApiResult ? MusicImage : undefined}
-				accessoryRight={ApiResult ? Controls : undefined}
+				accessoryRight={ApiResult && ContextType !== CONTEXT_PLAYLIST ? Controls : undefined}
 			/>
 		);
 	}
 }
 
 //! Weird
-export const MusicItem = ({ item }) => <MusicItemClass id={item.id} />;
+export const MusicItem = ({ item }) => (
+	<MusicItemClass
+		ContextType={item.ContextType}
+		id={item.id}
+	/>
+);
 
 MusicItem.propTypes = {
 	item: PropTypes.shape({
 		id: PropTypes.string,
+		ContextType: PropTypes.string,
 	}).isRequired,
 };

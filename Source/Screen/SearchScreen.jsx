@@ -2,6 +2,7 @@ import React from 'react';
 import {
 	Icon, Input, Layout,
 } from '@ui-kitten/components';
+import { CONTEXT_SEARCH } from '../Components/Group/Extras/Constants';
 import { SearchMusic } from '../Api/Music/Search';
 import MusicGroup from '../Components/Group/MusicGroup';
 import { TopBar } from '../Navigator/TopBar';
@@ -57,6 +58,7 @@ export class SearchScreen extends React.Component {
 
 					<MusicGroup
 						DetailType="Musics"
+						ContextType={CONTEXT_SEARCH}
 						MusicIds={MusicIds}
 						IsFetching={IsFetchingMusics}
 					/>

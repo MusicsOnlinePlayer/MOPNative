@@ -34,7 +34,7 @@ const useBottomNavigationState = (initialState = 0) => {
 const BottomTabBar = ({ navigation, state }) => (
 	<>
 		<View style={{ position: 'relative' }}>
-			<PlayerOverlay />
+			<PlayerOverlay navigation={navigation} />
 		</View>
 		<BottomNavigation
 			appearance="noIndicator"

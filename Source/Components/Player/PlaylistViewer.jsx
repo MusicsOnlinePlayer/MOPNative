@@ -1,6 +1,7 @@
 import React from 'react';
 import TrackPlayer from './TrackPlayer';
 import MusicGroup from '../Group/MusicGroup';
+import { CONTEXT_PLAYLIST } from '../Group/Extras/Constants';
 
 class PlaylistViewer extends React.Component {
 	constructor(props) {
@@ -31,7 +32,13 @@ class PlaylistViewer extends React.Component {
 
 	render() {
 		const { PlaylistIds, IsFetching } = this.state;
-		return <MusicGroup MusicIds={PlaylistIds} IsFetching={IsFetching} />;
+		return (
+			<MusicGroup
+				ContextType={CONTEXT_PLAYLIST}
+				MusicIds={PlaylistIds}
+				IsFetching={IsFetching}
+			/>
+		);
 	}
 }
 
