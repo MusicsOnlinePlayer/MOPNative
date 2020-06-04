@@ -98,7 +98,6 @@ class MusicItemClass extends React.Component {
 
 			if (IsLoadingFilePath) {
 				MusicImage = () => (
-
 					<Spinner size="large" />
 				);
 			}

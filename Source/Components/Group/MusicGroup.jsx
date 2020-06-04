@@ -19,12 +19,16 @@ class MusicGroup extends React.Component {
 		MusicIds: PropTypes.arrayOf(PropTypes.string),
 		ShowDetailType: PropTypes.bool,
 		ContextType: PropTypes.string.isRequired,
+		Reverse: PropTypes.bool,
+		Count: PropTypes.number,
 	}
 
 	static defaultProps = {
 		DetailType: undefined,
 		MusicIds: undefined,
 		ShowDetailType: false,
+		Reverse: false,
+		Count: 10,
 	}
 
 	constructor(props) {
@@ -35,7 +39,7 @@ class MusicGroup extends React.Component {
 
 	render() {
 		const {
-			IsFetching, DetailType, MusicIds, ShowDetailType, ContextType,
+			IsFetching, DetailType, MusicIds, ShowDetailType, ContextType, Reverse, Count,
 		} = this.props;
 
 		if (IsFetching) {
@@ -51,10 +55,14 @@ class MusicGroup extends React.Component {
 
 		if (MusicIds) {
 			const Musics = MusicIds.map((id) => ({ ContextType, id }));
+			const MusicsReversed = Reverse ? [...Musics].reverse() : Musics;
+			console.log(MusicsReversed);
+			MusicsReversed.length = Count;
+			console.log(MusicsReversed);
 			return (
 				<>
 					{!ShowDetailType || <Text category="h5">{DetailType}</Text>}
-					<List data={Musics} renderItem={MusicItem} />
+					<List data={MusicsReversed.filter((el) => el != null)} renderItem={MusicItem} />
 				</>
 			);
 		}

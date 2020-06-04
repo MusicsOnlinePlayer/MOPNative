@@ -34,3 +34,37 @@ export function GetFilePathById(id) {
 			.catch((err) => reject(err));
 	});
 }
+
+export function GetLikedMusics() {
+	return new Promise((resolve, reject) => {
+		GetApiAddress()
+			.then((url) => {
+				Axios.get(`${url}/User/LikedMusics`)
+					.then((res) => {
+						resolve(res.data);
+					})
+					.catch((err) => {
+						console.warn(err);
+						reject(err);
+					});
+			})
+			.catch((err) => reject(err));
+	});
+}
+
+export function GetViewedMusics() {
+	return new Promise((resolve, reject) => {
+		GetApiAddress()
+			.then((url) => {
+				Axios.get(`${url}/User/ViewedMusics`)
+					.then((res) => {
+						resolve(res.data);
+					})
+					.catch((err) => {
+						console.warn(err);
+						reject(err);
+					});
+			})
+			.catch((err) => reject(err));
+	});
+}

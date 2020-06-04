@@ -26,7 +26,7 @@ const SettingsIcon = (props) => <Icon {...props} name="settings-outline" />;
 
 const PlaylistIcon = (props) => <Icon {...props} name="music-outline" />;
 
-const useBottomNavigationState = (initialState = 0) => {
+const useBottomNavigationState = (initialState = 1) => {
 	const [selectedIndex, setSelectedIndex] = React.useState(initialState);
 	return { selectedIndex, onSelect: setSelectedIndex };
 };
