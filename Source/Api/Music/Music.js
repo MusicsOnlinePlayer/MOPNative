@@ -68,3 +68,20 @@ export function GetViewedMusics() {
 			.catch((err) => reject(err));
 	});
 }
+
+export function LikeMusic(id) {
+	return new Promise((resolve, reject) => {
+		GetApiAddress()
+			.then((url) => {
+				Axios.get(`${url}/Music/Music/Like/${id}`)
+					.then(() => {
+						resolve();
+					})
+					.catch((err) => {
+						console.warn(err);
+						reject(err);
+					});
+			})
+			.catch((err) => reject(err));
+	});
+}

@@ -56,9 +56,7 @@ class MusicGroup extends React.Component {
 		if (MusicIds) {
 			const Musics = MusicIds.map((id) => ({ ContextType, id }));
 			const MusicsReversed = Reverse ? [...Musics].reverse() : Musics;
-			console.log(MusicsReversed);
 			MusicsReversed.length = Count;
-			console.log(MusicsReversed);
 			return (
 				<>
 					{!ShowDetailType || <Text category="h5">{DetailType}</Text>}

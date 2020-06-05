@@ -4,9 +4,10 @@ import {
 	ListItem, Avatar, Spinner, Icon, Button,
 } from '@ui-kitten/components';
 import { ImageBackground } from 'react-native';
-import { GetMusicById, GetFilePathById } from '../../../Api/Music/Music';
+import { GetMusicById, GetFilePathById, LikeMusic } from '../../../Api/Music/Music';
 import TrackPlayer from '../../Player/TrackPlayer';
 import { CONTEXT_PLAYLIST } from '../Extras/Constants';
+import { LikeMusicButton } from '../Extras/LikeMusicButton';
 
 const PlusIcon = (props) => <Icon {...props} name="plus-outline" />;
 
@@ -66,7 +67,7 @@ class MusicItemClass extends React.Component {
 
 	render() {
 		const { ApiResult, IsLoadingFilePath } = this.state;
-		const { ContextType } = this.props;
+		const { ContextType, id } = this.props;
 
 		let MusicImage; let
 			Controls;
@@ -102,7 +103,12 @@ class MusicItemClass extends React.Component {
 				);
 			}
 
-			Controls = () => (<Button onPress={this.OnAddPress} appearance="ghost" accessoryLeft={PlusIcon} />);
+			Controls = () => (
+				<>
+					<LikeMusicButton defaultLikeState={ApiResult.IsLiked} onLike={() => LikeMusic(id)} />
+					<Button onPress={this.OnAddPress} appearance="ghost" accessoryLeft={PlusIcon} />
+				</>
+			);
 		}
 
 		return (
