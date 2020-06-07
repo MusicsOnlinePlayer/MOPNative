@@ -15,6 +15,11 @@ class MusicItemClass extends React.Component {
 	static propTypes = {
 		id: PropTypes.string.isRequired,
 		ContextType: PropTypes.string.isRequired,
+		onDataReceived: PropTypes.func,
+	}
+
+	static defaultProps = {
+		onDataReceived: () => { },
 	}
 
 	constructor(props) {
@@ -28,13 +33,14 @@ class MusicItemClass extends React.Component {
 
 	componentDidMount() {
 		this._IsMounted = true;
-		const { id } = this.props;
+		const { id, onDataReceived } = this.props;
 		GetMusicById(id)
 			.then((ApiResult) => {
 				if (this._IsMounted) {
 					this.setState({
 						ApiResult,
 					});
+					onDataReceived(ApiResult);
 				}
 			})
 			.catch();
@@ -67,7 +73,7 @@ class MusicItemClass extends React.Component {
 		const { ApiResult } = this.state;
 		if (ApiResult) {
 			this.setState({ IsLoadingFilePath: true });
-			GetFilePathById(ApiResult._id)
+			GetFilePathById(ApiResult._id, true)
 				.then((FilePath) => {
 					if (this._IsMounted) {
 						this.setState({ IsLoadingFilePath: false });

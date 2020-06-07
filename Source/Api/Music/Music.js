@@ -18,11 +18,11 @@ export function GetMusicById(id) {
 	});
 }
 
-export function GetFilePathById(id) {
+export function GetFilePathById(id, noLog = false) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
 			.then((url) => {
-				Axios.get(`${url}/Music/Music/get/${id}`)
+				Axios.get(`${url}/Music/Music/get/${id}?noLog=${noLog}`)
 					.then((res) => {
 						resolve(`${url}/${res.data.FilePath}`);
 					})

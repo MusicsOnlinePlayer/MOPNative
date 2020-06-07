@@ -36,7 +36,15 @@ class MusicGroup extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {};
+		this.state = {
+			Musics: [],
+		};
+	}
+
+	onMusicDataReceived = (MusicApiResult) => {
+		this.setState((prev) => ({
+			Musics: [...prev.Musics, MusicApiResult],
+		}));
 	}
 
 	render() {
@@ -56,6 +64,13 @@ class MusicGroup extends React.Component {
 		}
 
 		if (MusicIds) {
+			const MusicItemWithEvent = (props) => (
+				<MusicItem
+					{...props}
+					onDataReceived={this.onMusicDataReceived}
+				/>
+			);
+
 			const Musics = MusicIds.map((id) => ({ ContextType, id }));
 			const MusicsReversed = Reverse ? [...Musics].reverse() : Musics;
 			MusicsReversed.length = Count;
@@ -63,7 +78,7 @@ class MusicGroup extends React.Component {
 				<>
 					{!ShowDetailType || <ListItem title={DetailType} level="2" />}
 
-					<List data={MusicsReversed.filter((el) => el != null)} renderItem={MusicItem} />
+					<List data={MusicsReversed.filter((el) => el != null)} renderItem={MusicItemWithEvent} />
 				</>
 			);
 		}
