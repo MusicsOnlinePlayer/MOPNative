@@ -47,7 +47,7 @@ class MusicGroup extends React.Component {
 		if (IsFetching) {
 			return (
 				<>
-					{!ShowDetailType || <Text category="h5">{DetailType}</Text>}
+					{!ShowDetailType || <ListItem title={DetailType} level="2" />}
 					<View style={styles.loading}>
 						<Spinner />
 					</View>
