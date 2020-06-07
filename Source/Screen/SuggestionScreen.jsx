@@ -1,5 +1,7 @@
 import React from 'react';
-import { Layout, ViewPager } from '@ui-kitten/components';
+import {
+	Layout, TabView, Tab,
+} from '@ui-kitten/components';
 import { TopBar } from '../Navigator/TopBar';
 import { ViewedMusics } from '../Components/Group/ViewedMusics';
 import { LikedMusics } from '../Components/Group/LikedMusics';
@@ -8,18 +10,20 @@ import { LikedMusics } from '../Components/Group/LikedMusics';
 export const SuggestionScreen = () => {
 	const [selectedIndex, setSelectedIndex] = React.useState(0);
 
+	const shouldLoadComponent = (index) => index === selectedIndex;
+
 	return (
 		<>
 			<TopBar subtitle="Suggestions" />
-			<Layout style={{ height: '100%', padding: '2%' }} level="2">
-				<ViewPager
+			<Layout level="1">
+				<TabView
 					selectedIndex={selectedIndex}
+					shouldLoadComponent={shouldLoadComponent}
 					onSelect={(index) => setSelectedIndex(index)}
 				>
-					<ViewedMusics />
-					<LikedMusics />
-				</ViewPager>
-
+					<Tab title="History"><ViewedMusics /></Tab>
+					<Tab title="Favorites"><LikedMusics /></Tab>
+				</TabView>
 			</Layout>
 		</>
 	);

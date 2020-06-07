@@ -17,7 +17,6 @@ export class ViewedMusics extends React.Component {
 		this.setState({ IsFetching: true });
 		GetViewedMusics()
 			.then((ApiResult) => {
-				console.log(ApiResult);
 				this.setState({ ApiResult, IsFetching: false });
 			})
 			.catch(() => {});
@@ -27,13 +26,13 @@ export class ViewedMusics extends React.Component {
 		const { ApiResult, IsFetching } = this.state;
 
 		return (
-			<Layout level="2">
+			<Layout level="2" style={{ height: '100%' }}>
 				<MusicGroup
-					DetailType="History"
+					ShowDetailType
+					DetailType="Viewed Musics"
 					ContextType={CONTEXT_SEARCH}
-					MusicIds={ApiResult ? ApiResult.MusicsId : undefined}
+					MusicIds={ApiResult ? [...(ApiResult.MusicsId)].reverse() : undefined}
 					IsFetching={IsFetching}
-					Reverse
 					Count={20}
 				/>
 			</Layout>

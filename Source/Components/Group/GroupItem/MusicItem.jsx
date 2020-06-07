@@ -23,17 +23,25 @@ class MusicItemClass extends React.Component {
 			ApiResult: undefined,
 			IsLoadingFilePath: false,
 		};
+		this._IsMounted = false;
 	}
 
 	componentDidMount() {
+		this._IsMounted = true;
 		const { id } = this.props;
 		GetMusicById(id)
 			.then((ApiResult) => {
-				this.setState({
-					ApiResult,
-				});
+				if (this._IsMounted) {
+					this.setState({
+						ApiResult,
+					});
+				}
 			})
 			.catch();
+	}
+
+	componentWillUnmount() {
+		this._IsMounted = false;
 	}
 
 	onPress = () => {
@@ -44,8 +52,10 @@ class MusicItemClass extends React.Component {
 				this.setState({ IsLoadingFilePath: true });
 				GetFilePathById(ApiResult._id)
 					.then((FilePath) => {
-						this.setState({ IsLoadingFilePath: false });
-						TrackPlayer.getInstance().AddAndPlay(ApiResult, FilePath);
+						if (this._IsMounted) {
+							this.setState({ IsLoadingFilePath: false });
+							TrackPlayer.getInstance().AddAndPlay(ApiResult, FilePath);
+						}
 					});
 			} else {
 				TrackPlayer.getInstance().ChangePlayingTrack(id);
@@ -59,8 +69,10 @@ class MusicItemClass extends React.Component {
 			this.setState({ IsLoadingFilePath: true });
 			GetFilePathById(ApiResult._id)
 				.then((FilePath) => {
-					this.setState({ IsLoadingFilePath: false });
-					TrackPlayer.getInstance().Add(ApiResult, FilePath);
+					if (this._IsMounted) {
+						this.setState({ IsLoadingFilePath: false });
+						TrackPlayer.getInstance().Add(ApiResult, FilePath);
+					}
 				});
 		}
 	}
@@ -106,7 +118,7 @@ class MusicItemClass extends React.Component {
 			Controls = () => (
 				<>
 					<LikeMusicButton defaultLikeState={ApiResult.IsLiked} onLike={() => LikeMusic(id)} />
-					<Button onPress={this.OnAddPress} appearance="ghost" accessoryLeft={PlusIcon} />
+					<Button onPress={this.OnAddPress} accessoryLeft={PlusIcon} appearance="ghost" status="basic" />
 				</>
 			);
 		}

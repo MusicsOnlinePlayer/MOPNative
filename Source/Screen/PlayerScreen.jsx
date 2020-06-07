@@ -7,7 +7,7 @@ import { TopBar } from '../Navigator/TopBar';
 const PlayerScreen = () => (
 	<>
 		<TopBar subtitle="Player" />
-		<Layout style={{ height: '100%', padding: '2%' }} level="2">
+		<Layout style={{ height: '100%' }} level="2">
 			<PlayerMain />
 			<PlaylistViewer />
 		</Layout>

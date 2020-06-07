@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
-import { Spinner, Text, List } from '@ui-kitten/components';
+import {
+	Spinner, Text, List, ListItem,
+} from '@ui-kitten/components';
 import { MusicItem } from './GroupItem/MusicItem';
 
 const styles = StyleSheet.create({
@@ -59,7 +61,8 @@ class MusicGroup extends React.Component {
 			MusicsReversed.length = Count;
 			return (
 				<>
-					{!ShowDetailType || <Text category="h5">{DetailType}</Text>}
+					{!ShowDetailType || <ListItem title={DetailType} level="2" />}
+
 					<List data={MusicsReversed.filter((el) => el != null)} renderItem={MusicItem} />
 				</>
 			);

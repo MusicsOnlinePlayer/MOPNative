@@ -25,7 +25,7 @@ class PlayerOverlay extends React.Component {
 				left: 0,
 				right: 0,
 				bottom: 0,
-				padding: '2%',
+				padding: '1.5%',
 				alignItems: 'center',
 			}}
 			>

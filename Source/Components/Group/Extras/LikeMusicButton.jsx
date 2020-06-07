@@ -36,7 +36,7 @@ class LikeMusicButton extends React.Component {
 		const { IsLiked } = this.state;
 		const IsLikeIcon = IsLiked ? LikeIcon : LikeOutlineIcon;
 
-		return (<Button onPress={this.onLikePress} appearance="ghost" accessoryLeft={IsLikeIcon} />);
+		return (<Button status="basic" onPress={this.onLikePress} appearance="ghost" accessoryLeft={IsLikeIcon} />);
 	}
 }
 

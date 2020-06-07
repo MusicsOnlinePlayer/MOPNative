@@ -17,7 +17,6 @@ export class LikedMusics extends React.Component {
 		this.setState({ IsFetching: true });
 		GetLikedMusics()
 			.then((ApiResult) => {
-				console.log(ApiResult);
 				this.setState({ ApiResult, IsFetching: false });
 			})
 			.catch(() => {});
@@ -27,9 +26,10 @@ export class LikedMusics extends React.Component {
 		const { ApiResult, IsFetching } = this.state;
 
 		return (
-			<Layout level="2">
+			<Layout level="2" style={{ height: '100%' }}>
 				<MusicGroup
-					DetailType="Favorites"
+					DetailType="Liked Musics"
+					ShowDetailType
 					ContextType={CONTEXT_SEARCH}
 					MusicIds={ApiResult ? ApiResult.MusicsId : undefined}
 					IsFetching={IsFetching}
