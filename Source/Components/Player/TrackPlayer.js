@@ -72,8 +72,15 @@ class TrackPlayer {
 
 	AddMultiple = async (MusicsFromApi) => {
 		const baseUrl = await GetMusicBaseUrl();
-		const Musics = MusicsFromApi.map((item) => ({ ...item, url: baseUrl + item._id }));
-		await RNTrackPlayer.add(Musics);
+		const MusicsWarped = MusicsFromApi.map((item) => ({
+			id: item._id,
+			url: baseUrl + item._id,
+			title: item.Title,
+			album: item.Album,
+			artist: item.Artist,
+			artwork: item.ImagePathDeezer,
+		}));
+		await RNTrackPlayer.add(MusicsWarped);
 		const tracks = await this.GetTracksIds();
 		this.CustomEvents.emit('TrackAdded', tracks);
 	}

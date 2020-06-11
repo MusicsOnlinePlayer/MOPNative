@@ -46,9 +46,7 @@ class MusicGroup extends React.Component {
 	onDetailPress = () => {
 		const MusicsOrdered = this.Musics.sort((a, b) => a.order - b.order);
 		TrackPlayer.getInstance().RemoveAllTracks();
-		MusicsOrdered.forEach((el) => {
-			TrackPlayer.getInstance().Add(el);
-		});
+		TrackPlayer.getInstance().AddMultiple(MusicsOrdered);
 	}
 
 	render() {
