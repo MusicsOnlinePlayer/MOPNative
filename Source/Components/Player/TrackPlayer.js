@@ -83,6 +83,7 @@ class TrackPlayer {
 		await RNTrackPlayer.add(MusicsWarped);
 		const tracks = await this.GetTracksIds();
 		this.CustomEvents.emit('TrackAdded', tracks);
+		await this.Play();
 	}
 
 	GetTracksIds = async () => {

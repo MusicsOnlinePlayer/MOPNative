@@ -25,7 +25,7 @@ export class PreferenceScreen extends React.Component {
 				});
 			})
 
-			.catch((err) => {
+			.catch(() => {
 				// console.log(err);
 			});
 	}

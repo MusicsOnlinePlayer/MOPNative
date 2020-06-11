@@ -59,6 +59,7 @@ export class SearchScreen extends React.Component {
 					<Layout level="2" style={{ height: '100%' }}>
 						<MusicGroup
 							DetailType="Musics"
+							ShowDetailType
 							ContextType={CONTEXT_SEARCH}
 							MusicIds={MusicIds}
 							IsFetching={IsFetchingMusics}
