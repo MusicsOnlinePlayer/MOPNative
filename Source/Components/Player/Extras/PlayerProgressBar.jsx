@@ -7,7 +7,7 @@ import {
 import { withStyles } from '@ui-kitten/components';
 
 const ProgressBar = ({ eva }) => {
-	const progress = useTrackPlayerProgress(100);
+	const progress = useTrackPlayerProgress();
 
 	return (
 		<View style={{
