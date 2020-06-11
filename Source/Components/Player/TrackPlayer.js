@@ -1,5 +1,6 @@
 import RNTrackPlayer from 'react-native-track-player';
 import EventEmitter from 'events';
+import { GetFilePathById } from '../../Api/Music/Music';
 
 class TrackPlayer {
 	static TrackPlayer;
@@ -16,7 +17,7 @@ class TrackPlayer {
 
 	Init = () => {
 		RNTrackPlayer.setupPlayer({
-			iosCategoryMode: 'spokenAudio',
+			iosCategoryMode: 'default',
 		});
 
 		const capabilities = [
@@ -33,6 +34,9 @@ class TrackPlayer {
 		RNTrackPlayer.updateOptions(options);
 
 		this.CustomEvents = new EventEmitter();
+		this.Playlist = [];
+		this.PlayingIndex = 0;
+		RNTrackPlayer.addEventListener('playback-queue-ended', this.OnTrackEnded);
 	};
 
 	IsPlaying = async () => await RNTrackPlayer.getState() === RNTrackPlayer.STATE_PLAYING
@@ -46,15 +50,15 @@ class TrackPlayer {
 	AddEvent = (type, cb) => RNTrackPlayer.addEventListener(type, cb)
 
 	AddAndPlay = async (MusicFromApi, url) => {
-		await RNTrackPlayer.reset();
+		this.ResetPlaylist();
 		await this.Add(MusicFromApi, url);
-		await RNTrackPlayer.play();
+		this.PlayingIndex = this.Playlist.length - 1;
+		this.PlayAtIndex();
 	}
 
-	Add = async (MusicFromApi, url) => {
-		await RNTrackPlayer.add({
+	Add = async (MusicFromApi) => {
+		this.Playlist.push({
 			id: MusicFromApi._id,
-			url,
 			title: MusicFromApi.Title,
 			album: MusicFromApi.Album,
 			artist: MusicFromApi.Artist,
@@ -65,12 +69,35 @@ class TrackPlayer {
 	}
 
 	GetTracksIds = async () => {
-		const tracks = await RNTrackPlayer.getQueue();
+		const tracks = this.Playlist;
 		return tracks.map(({ id }) => id);
 	}
 
-	ChangePlayingTrack = async (id) => {
-		await RNTrackPlayer.skip(id);
+	ChangePlayingTrack = async (reqId) => {
+		this.PlayingIndex = this.Playlist.map(({ id }) => id).indexOf(reqId);
+		await this.PlayAtIndex();
+	}
+
+	PlayAtIndex = async () => {
+		const MusicAtIndex = this.Playlist[this.PlayingIndex];
+		this.CustomEvents.emit('FilePathLoadStarted');
+		MusicAtIndex.url = await GetFilePathById(MusicAtIndex.id);
+		this.CustomEvents.emit('FilePathLoadEnded');
+		await RNTrackPlayer.add(MusicAtIndex);
+		await RNTrackPlayer.skip(MusicAtIndex.id);
+		await RNTrackPlayer.play();
+	}
+
+	ResetPlaylist = () => {
+		this.Playlist = [];
+		this.PlayingIndex = 0;
+	}
+
+	OnTrackEnded = () => {
+		if (this.PlayingIndex + 1 <= this.Playlist.length - 1) {
+			this.PlayingIndex += 1;
+			this.PlayAtIndex();
+		}
 	}
 }
 

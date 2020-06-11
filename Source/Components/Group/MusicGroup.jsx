@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import {
-	Spinner, Text, List, ListItem,
+	Spinner, List, ListItem,
 } from '@ui-kitten/components';
 import { MusicItem } from './GroupItem/MusicItem';
 

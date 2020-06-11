@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ListItem, Avatar } from '@ui-kitten/components';
+import { ListItem, Avatar, Spinner } from '@ui-kitten/components';
 import { ImageBackground } from 'react-native';
 import TrackPlayer from '../TrackPlayer';
 import { PlayPauseToggle } from './PlayPauseToggle';
@@ -16,6 +16,7 @@ class PlayerSmallControls extends React.Component {
 			title: '',
 			artist: '',
 			ImageUrl: '',
+			IsLoading: false,
 		};
 		this._IsMounted = false;
 	}
@@ -25,6 +26,12 @@ class PlayerSmallControls extends React.Component {
 		this.UpdateMusicDetails();
 		TrackPlayer.getInstance().AddEvent('playback-track-changed', async () => {
 			this.UpdateMusicDetails();
+		});
+		TrackPlayer.getInstance().CustomEvents.on('FilePathLoadStarted', () => {
+			if (this._IsMounted) { this.setState({ IsLoading: true }); }
+		});
+		TrackPlayer.getInstance().CustomEvents.on('FilePathLoadEnded', () => {
+			if (this._IsMounted) { this.setState({ IsLoading: false }); }
 		});
 	}
 
@@ -54,6 +61,7 @@ class PlayerSmallControls extends React.Component {
 			title,
 			artist,
 			ImageUrl,
+			IsLoading,
 		} = this.state;
 		if (title) {
 			const MusicImage = () => (
@@ -66,13 +74,17 @@ class PlayerSmallControls extends React.Component {
 				/>
 			);
 
+			const Loading = () => (
+				<Spinner size="large" />
+			);
+
 			return (
 				<ListItem
 					style={{ zIndex: 1 }}
 					title={title}
 					description={artist}
 					accessoryRight={PlayPauseToggle}
-					accessoryLeft={MusicImage}
+					accessoryLeft={IsLoading ? Loading : MusicImage}
 					onPress={onPress}
 				/>
 			);
