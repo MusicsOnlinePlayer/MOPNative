@@ -1,4 +1,5 @@
 import React from 'react';
+import { Layout } from '@ui-kitten/components';
 import TrackPlayer from './TrackPlayer';
 import MusicGroup from '../Group/MusicGroup';
 import { CONTEXT_PLAYLIST } from '../Group/Extras/Constants';
@@ -33,11 +34,13 @@ class PlaylistViewer extends React.Component {
 	render() {
 		const { PlaylistIds, IsFetching } = this.state;
 		return (
-			<MusicGroup
-				ContextType={CONTEXT_PLAYLIST}
-				MusicIds={PlaylistIds}
-				IsFetching={IsFetching}
-			/>
+			<Layout level="2" style={{ height: '100%' }}>
+				<MusicGroup
+					ContextType={CONTEXT_PLAYLIST}
+					MusicIds={PlaylistIds}
+					IsFetching={IsFetching}
+				/>
+			</Layout>
 		);
 	}
 }

@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import {
-	Spinner, Text, List, ListItem,
+	Spinner, List, ListItem,
 } from '@ui-kitten/components';
 import { MusicItem } from './GroupItem/MusicItem';
+import TrackPlayer from '../Player/TrackPlayer';
 
 const styles = StyleSheet.create({
 	loading: {
@@ -41,10 +42,19 @@ class MusicGroup extends React.Component {
 		};
 	}
 
-	onMusicDataReceived = (MusicApiResult) => {
+	onMusicDataReceived = (MusicApiResult, order) => {
 		this.setState((prev) => ({
-			Musics: [...prev.Musics, MusicApiResult],
+			Musics: [...prev.Musics, { ...MusicApiResult, order }],
 		}));
+	}
+
+	onDetailPress = () => {
+		const { Musics } = this.state;
+		const MusicsOrdered = Musics.sort((a, b) => a.order - b.order);
+		TrackPlayer.getInstance().RemoveAllTracks();
+		MusicsOrdered.forEach((el) => {
+			TrackPlayer.getInstance().Add(el);
+		});
 	}
 
 	render() {
@@ -76,9 +86,12 @@ class MusicGroup extends React.Component {
 			MusicsReversed.length = Count;
 			return (
 				<>
-					{!ShowDetailType || <ListItem title={DetailType} level="2" />}
+					{!ShowDetailType || <ListItem title={DetailType} level="2" onPress={this.onDetailPress} />}
 
-					<List data={MusicsReversed.filter((el) => el != null)} renderItem={MusicItemWithEvent} />
+					<List
+						data={MusicsReversed.filter((el) => el != null).map((el, order) => ({ ...el, order }))}
+						renderItem={MusicItemWithEvent}
+					/>
 				</>
 			);
 		}

@@ -56,13 +56,14 @@ export class SearchScreen extends React.Component {
 						onSubmitEditing={this.OnSearchSubmit}
 						returnKeyType="search"
 					/>
-
-					<MusicGroup
-						DetailType="Musics"
-						ContextType={CONTEXT_SEARCH}
-						MusicIds={MusicIds}
-						IsFetching={IsFetchingMusics}
-					/>
+					<Layout level="2" style={{ height: '100%' }}>
+						<MusicGroup
+							DetailType="Musics"
+							ContextType={CONTEXT_SEARCH}
+							MusicIds={MusicIds}
+							IsFetching={IsFetchingMusics}
+						/>
+					</Layout>
 				</Layout>
 			</>
 		);

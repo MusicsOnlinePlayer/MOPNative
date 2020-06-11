@@ -1,6 +1,6 @@
 import RNTrackPlayer from 'react-native-track-player';
 import EventEmitter from 'events';
-import { GetMusicUrl } from '../../Api/Music/Music';
+import { GetMusicUrl, GetMusicBaseUrl } from '../../Api/Music/Music';
 
 class TrackPlayer {
 	static TrackPlayer;
@@ -47,9 +47,13 @@ class TrackPlayer {
 	AddEvent = (type, cb) => RNTrackPlayer.addEventListener(type, cb)
 
 	AddAndPlay = async (MusicFromApi) => {
-		await RNTrackPlayer.reset();
+		await this.RemoveAllTracks();
 		await this.Add(MusicFromApi);
 		await RNTrackPlayer.play();
+	}
+
+	RemoveAllTracks = async () => {
+		await RNTrackPlayer.reset();
 	}
 
 	Add = async (MusicFromApi) => {
@@ -62,6 +66,14 @@ class TrackPlayer {
 			artist: MusicFromApi.Artist,
 			artwork: MusicFromApi.ImagePathDeezer,
 		});
+		const tracks = await this.GetTracksIds();
+		this.CustomEvents.emit('TrackAdded', tracks);
+	}
+
+	AddMultiple = async (MusicsFromApi) => {
+		const baseUrl = await GetMusicBaseUrl();
+		const Musics = MusicsFromApi.map((item) => ({ ...item, url: baseUrl + item._id }));
+		await RNTrackPlayer.add(Musics);
 		const tracks = await this.GetTracksIds();
 		this.CustomEvents.emit('TrackAdded', tracks);
 	}

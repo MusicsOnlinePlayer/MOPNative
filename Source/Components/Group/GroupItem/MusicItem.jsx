@@ -16,6 +16,7 @@ class MusicItemClass extends React.Component {
 		id: PropTypes.string.isRequired,
 		ContextType: PropTypes.string.isRequired,
 		onDataReceived: PropTypes.func,
+		order: PropTypes.number.isRequired,
 	}
 
 	static defaultProps = {
@@ -33,14 +34,14 @@ class MusicItemClass extends React.Component {
 
 	componentDidMount() {
 		this._IsMounted = true;
-		const { id, onDataReceived } = this.props;
+		const { id, onDataReceived, order } = this.props;
 		GetMusicById(id)
 			.then((ApiResult) => {
 				if (this._IsMounted) {
 					this.setState({
 						ApiResult,
 					});
-					onDataReceived(ApiResult);
+					onDataReceived(ApiResult, order);
 				}
 			})
 			.catch();
@@ -139,10 +140,12 @@ class MusicItemClass extends React.Component {
 }
 
 //! Weird
-export const MusicItem = ({ item }) => (
+export const MusicItem = ({ item, onDataReceived }) => (
 	<MusicItemClass
 		ContextType={item.ContextType}
 		id={item.id}
+		order={item.order}
+		onDataReceived={onDataReceived}
 	/>
 );
 
@@ -150,5 +153,7 @@ MusicItem.propTypes = {
 	item: PropTypes.shape({
 		id: PropTypes.string,
 		ContextType: PropTypes.string,
+		order: PropTypes.number,
 	}).isRequired,
+	onDataReceived: PropTypes.func.isRequired,
 };

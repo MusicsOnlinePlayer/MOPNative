@@ -95,3 +95,13 @@ export function GetMusicUrl(id) {
 			.catch((err) => reject(err));
 	});
 }
+
+export function GetMusicBaseUrl() {
+	return new Promise((resolve, reject) => {
+		GetApiAddress()
+			.then((url) => {
+				resolve(`${url}/Music/cdn/`);
+			})
+			.catch((err) => reject(err));
+	});
+}
