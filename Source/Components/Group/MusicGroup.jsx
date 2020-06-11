@@ -36,21 +36,15 @@ class MusicGroup extends React.Component {
 
 	constructor(props) {
 		super(props);
-
-		this.state = {
-			Musics: [],
-		};
+		this.Musics = [];
 	}
 
 	onMusicDataReceived = (MusicApiResult, order) => {
-		this.setState((prev) => ({
-			Musics: [...prev.Musics, { ...MusicApiResult, order }],
-		}));
+		this.Musics.push({ ...MusicApiResult, order });
 	}
 
 	onDetailPress = () => {
-		const { Musics } = this.state;
-		const MusicsOrdered = Musics.sort((a, b) => a.order - b.order);
+		const MusicsOrdered = this.Musics.sort((a, b) => a.order - b.order);
 		TrackPlayer.getInstance().RemoveAllTracks();
 		MusicsOrdered.forEach((el) => {
 			TrackPlayer.getInstance().Add(el);

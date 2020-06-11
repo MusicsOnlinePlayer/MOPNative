@@ -26,7 +26,7 @@ export class PreferenceScreen extends React.Component {
 			})
 
 			.catch((err) => {
-				console.log(err);
+				// console.log(err);
 			});
 	}
 
@@ -42,7 +42,7 @@ export class PreferenceScreen extends React.Component {
 		try {
 			await AsyncStorage.setItem('MOPServerIP', IpValue);
 		} catch (e) {
-			console.log(e);
+			// console.log(e);
 		}
 	};
 
