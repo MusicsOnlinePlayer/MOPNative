@@ -4,7 +4,7 @@ import {
 	ListItem, Avatar, Spinner, Icon, Button,
 } from '@ui-kitten/components';
 import { ImageBackground } from 'react-native';
-import { GetMusicById, GetFilePathById, LikeMusic } from '../../../Api/Music/Music';
+import { GetMusicById, LikeMusic } from '../../../Api/Music/Music';
 import TrackPlayer from '../../Player/TrackPlayer';
 import { CONTEXT_PLAYLIST } from '../Extras/Constants';
 import { LikeMusicButton } from '../Extras/LikeMusicButton';
@@ -50,36 +50,31 @@ class MusicItemClass extends React.Component {
 		this._IsMounted = false;
 	}
 
-	onPress = () => {
+	onPress = async () => {
 		const { ApiResult } = this.state;
 		const { ContextType, id } = this.props;
 		if (ApiResult) {
 			if (ContextType !== CONTEXT_PLAYLIST) {
 				this.setState({ IsLoadingFilePath: true });
-				GetFilePathById(ApiResult._id)
-					.then((FilePath) => {
-						if (this._IsMounted) {
-							this.setState({ IsLoadingFilePath: false });
-							TrackPlayer.getInstance().AddAndPlay(ApiResult, FilePath);
-						}
-					});
+
+				if (this._IsMounted) {
+					await TrackPlayer.getInstance().AddAndPlay(ApiResult);
+					this.setState({ IsLoadingFilePath: false });
+				}
 			} else {
 				TrackPlayer.getInstance().ChangePlayingTrack(id);
 			}
 		}
 	}
 
-	OnAddPress = () => {
+	OnAddPress = async () => {
 		const { ApiResult } = this.state;
 		if (ApiResult) {
 			this.setState({ IsLoadingFilePath: true });
-			GetFilePathById(ApiResult._id, true)
-				.then((FilePath) => {
-					if (this._IsMounted) {
-						this.setState({ IsLoadingFilePath: false });
-						TrackPlayer.getInstance().Add(ApiResult, FilePath);
-					}
-				});
+			if (this._IsMounted) {
+				await TrackPlayer.getInstance().Add(ApiResult);
+				this.setState({ IsLoadingFilePath: false });
+			}
 		}
 	}
 

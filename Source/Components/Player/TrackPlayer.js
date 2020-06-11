@@ -1,5 +1,6 @@
 import RNTrackPlayer from 'react-native-track-player';
 import EventEmitter from 'events';
+import { GetMusicUrl } from '../../Api/Music/Music';
 
 class TrackPlayer {
 	static TrackPlayer;
@@ -45,13 +46,14 @@ class TrackPlayer {
 
 	AddEvent = (type, cb) => RNTrackPlayer.addEventListener(type, cb)
 
-	AddAndPlay = async (MusicFromApi, url) => {
+	AddAndPlay = async (MusicFromApi) => {
 		await RNTrackPlayer.reset();
-		await this.Add(MusicFromApi, url);
+		await this.Add(MusicFromApi);
 		await RNTrackPlayer.play();
 	}
 
-	Add = async (MusicFromApi, url) => {
+	Add = async (MusicFromApi) => {
+		const url = await GetMusicUrl(MusicFromApi._id);
 		await RNTrackPlayer.add({
 			id: MusicFromApi._id,
 			url,

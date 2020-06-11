@@ -85,3 +85,13 @@ export function LikeMusic(id) {
 			.catch((err) => reject(err));
 	});
 }
+
+export function GetMusicUrl(id) {
+	return new Promise((resolve, reject) => {
+		GetApiAddress()
+			.then((url) => {
+				resolve(`${url}/Music/cdn/${id}`);
+			})
+			.catch((err) => reject(err));
+	});
+}
