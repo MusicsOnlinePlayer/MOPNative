@@ -18,17 +18,22 @@ class TrackPlayer {
 	Init = () => {
 		RNTrackPlayer.setupPlayer({
 			iosCategoryMode: 'spokenAudio',
+
 		});
 
 		const capabilities = [
 			RNTrackPlayer.CAPABILITY_PLAY,
 			RNTrackPlayer.CAPABILITY_PAUSE,
 			RNTrackPlayer.CAPABILITY_SEEK_TO,
+			RNTrackPlayer.CAPABILITY_SKIP_TO_NEXT,
+			RNTrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
+			RNTrackPlayer.CAPABILITY_STOP,
 		];
 
 		const options = {
 			capabilities,
 			compactCapabilities: capabilities,
+			alwaysPauseOnInterruption: true,
 		};
 
 		RNTrackPlayer.updateOptions(options);

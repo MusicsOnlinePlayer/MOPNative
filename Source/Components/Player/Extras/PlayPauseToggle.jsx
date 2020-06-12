@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Icon } from '@ui-kitten/components';
+import { Button, Icon, Spinner } from '@ui-kitten/components';
+import RNTrackPlayer from 'react-native-track-player';
 import TrackPlayer from '../TrackPlayer';
 
 const PlayIcon = (props) => <Icon {...props} name="play-circle-outline" />;
@@ -12,14 +13,15 @@ class PlayPauseToggleClass extends React.Component {
 		this._IsMounted = false;
 		this.state = {
 			IsPlaying: false,
+			IsLoading: false,
 		};
 	}
 
 	componentDidMount() {
 		this._IsMounted = true;
 		this.UpdatePlayingState();
-		TrackPlayer.getInstance().AddEvent('playback-state', () => {
-			this.UpdatePlayingState();
+		TrackPlayer.getInstance().AddEvent('playback-state', ({ state }) => {
+			this.UpdatePlayingState(state);
 		});
 	}
 
@@ -29,21 +31,27 @@ class PlayPauseToggleClass extends React.Component {
 	}
 
 	OnButtonPress = () => {
-		const { IsPlaying } = this.state;
+		const { IsPlaying, IsLoading } = this.state;
+		if (IsLoading) return;
+
 		IsPlaying ? TrackPlayer.getInstance().Pause() : TrackPlayer.getInstance().Play();
 	};
 
-	async UpdatePlayingState() {
+	async UpdatePlayingState(state) {
 		if (this._IsMounted) {
 			this.setState({
 				IsPlaying: await TrackPlayer.getInstance().IsPlaying(),
+				IsLoading: state === RNTrackPlayer.STATE_BUFFERING,
 			});
 		}
 	}
 
 	render() {
-		const { IsPlaying } = this.state;
+		const { IsPlaying, IsLoading } = this.state;
 
+		if (IsLoading) {
+			return <Spinner size="small" />;
+		}
 		return (
 			<Button
 				onPress={this.OnButtonPress}
