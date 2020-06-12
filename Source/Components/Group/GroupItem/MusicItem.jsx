@@ -120,7 +120,7 @@ class MusicItemClass extends React.PureComponent {
 			Controls = () => (
 				<>
 					<LikeMusicButton defaultLikeState={ApiResult.IsLiked} onLike={() => LikeMusic(id)} />
-					<Button onPress={this.OnAddPress} accessoryLeft={PlusIcon} appearance="ghost" status="basic" />
+					{ContextType !== CONTEXT_PLAYLIST && <Button onPress={this.OnAddPress} accessoryLeft={PlusIcon} appearance="ghost" status="basic" />}
 				</>
 			);
 		}
@@ -133,7 +133,7 @@ class MusicItemClass extends React.PureComponent {
 				title={ApiResult ? ApiResult.Title : 'Loading'}
 				description={ApiResult ? ApiResult.Artist : 'Loading'}
 				accessoryLeft={ApiResult ? MusicImage : undefined}
-				accessoryRight={ApiResult && ContextType !== CONTEXT_PLAYLIST ? Controls : undefined}
+				accessoryRight={ApiResult ? Controls : undefined}
 			/>
 		);
 	}
