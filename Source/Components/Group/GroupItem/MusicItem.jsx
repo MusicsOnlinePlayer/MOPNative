@@ -11,7 +11,7 @@ import { LikeMusicButton } from '../Extras/LikeMusicButton';
 
 const PlusIcon = (props) => <Icon {...props} name="plus-outline" />;
 
-class MusicItemClass extends React.Component {
+class MusicItemClass extends React.PureComponent {
 	static propTypes = {
 		id: PropTypes.string.isRequired,
 		ContextType: PropTypes.string.isRequired,

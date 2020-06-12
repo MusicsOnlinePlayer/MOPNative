@@ -37,6 +37,10 @@ class MusicGroup extends React.Component {
 	constructor(props) {
 		super(props);
 		this.Musics = [];
+		const { Count } = this.props;
+		this.state = {
+			Count,
+		};
 	}
 
 	onMusicDataReceived = (MusicApiResult, order) => {
@@ -50,8 +54,9 @@ class MusicGroup extends React.Component {
 	}
 
 	render() {
+		const { Count } = this.state;
 		const {
-			IsFetching, DetailType, MusicIds, ShowDetailType, ContextType, Reverse, Count,
+			IsFetching, DetailType, MusicIds, ShowDetailType, ContextType, Reverse,
 		} = this.props;
 
 		if (IsFetching) {
@@ -83,6 +88,8 @@ class MusicGroup extends React.Component {
 					<List
 						data={MusicsReversed.filter((el) => el != null).map((el, order) => ({ ...el, order }))}
 						renderItem={MusicItemWithEvent}
+						onEndReachedThreshold={0.5}
+						onEndReached={() => this.setState((prev) => ({ Count: prev.Count += 30 }))}
 					/>
 				</>
 			);
