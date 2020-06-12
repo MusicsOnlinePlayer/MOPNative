@@ -14,7 +14,7 @@ export const SuggestionScreen = () => {
 
 	return (
 		<>
-			<TopBar subtitle="Suggestions" />
+			<TopBar subtitle="Explore" />
 			<Layout level="1">
 				<TabView
 					selectedIndex={selectedIndex}
