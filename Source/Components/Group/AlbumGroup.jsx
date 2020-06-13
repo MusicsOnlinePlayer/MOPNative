@@ -22,6 +22,9 @@ class AlbumGroup extends React.Component {
 		ShowDetailType: PropTypes.bool,
 		Reverse: PropTypes.bool,
 		Count: PropTypes.number,
+		navigation: PropTypes.shape({
+			navigate: PropTypes.func,
+		}).isRequired,
 	}
 
 	static defaultProps = {
@@ -40,7 +43,10 @@ class AlbumGroup extends React.Component {
 		};
 	}
 
-	onDetailPress = () => { }
+	OnItemClick = (AlbumId) => {
+		const { navigation } = this.props;
+		navigation.navigate('Album', { AlbumId });
+	}
 
 	render() {
 		const { Count } = this.state;
@@ -63,13 +69,16 @@ class AlbumGroup extends React.Component {
 			const Albums = AlbumIds.map((id) => ({ id }));
 			const AlbumsReversed = Reverse ? [...Albums].reverse() : Albums;
 			AlbumsReversed.length = Count;
+
+			const AlbumItemWithEvent = (props) => <AlbumItem {...props} OnItemClick={this.OnItemClick} />;
+
 			return (
 				<>
 					{!ShowDetailType || <ListItem title={DetailType} level="2" onPress={this.onDetailPress} />}
 
 					<List
 						data={AlbumsReversed.filter((el) => el != null).map((el, order) => ({ ...el, order }))}
-						renderItem={AlbumItem}
+						renderItem={AlbumItemWithEvent}
 						onEndReachedThreshold={0.5}
 						onEndReached={() => this.setState((prev) => ({ Count: prev.Count + 30 }))}
 					/>

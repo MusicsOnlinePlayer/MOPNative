@@ -18,11 +18,11 @@ export function GetMusicById(id) {
 	});
 }
 
-export function GetAlbumById(id) {
+export function GetAlbumById(id, getAll = false) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
 			.then((url) => {
-				Axios.get(`${url}/Music/Album/id/${id}`)
+				Axios.get(`${url}/Music/Album/id/${id}${getAll ? '?mode=all' : ''}`)
 					.then((res) => {
 						resolve(res.data);
 					})
@@ -35,11 +35,11 @@ export function GetAlbumById(id) {
 	});
 }
 
-export function GetArtistById(id) {
+export function GetArtistById(id, getAll = false) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
 			.then((url) => {
-				Axios.get(`${url}/Music/Artist/id/${id}`)
+				Axios.get(`${url}/Music/Artist/id/${id}${getAll ? '?mode=all' : ''}`)
 					.then((res) => {
 						resolve(res.data);
 					})

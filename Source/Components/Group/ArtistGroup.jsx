@@ -22,6 +22,9 @@ class ArtistGroup extends React.Component {
 		ShowDetailType: PropTypes.bool,
 		Reverse: PropTypes.bool,
 		Count: PropTypes.number,
+		navigation: PropTypes.shape({
+			navigate: PropTypes.func,
+		}).isRequired,
 	}
 
 	static defaultProps = {
@@ -40,7 +43,10 @@ class ArtistGroup extends React.Component {
 		};
 	}
 
-	onDetailPress = () => { }
+	OnItemClick = (ArtistId) => {
+		const { navigation } = this.props;
+		navigation.navigate('Artist', { ArtistId });
+	}
 
 	render() {
 		const { Count } = this.state;
@@ -63,13 +69,21 @@ class ArtistGroup extends React.Component {
 			const Artists = ArtistIds.map((id) => ({ id }));
 			const ArtistsReversed = Reverse ? [...Artists].reverse() : Artists;
 			ArtistsReversed.length = Count;
+
+			const ArtistItemWithEvent = (props) => (
+				<ArtistItem
+					{...props}
+					OnItemClick={this.OnItemClick}
+				/>
+			);
+
 			return (
 				<>
 					{!ShowDetailType || <ListItem title={DetailType} level="2" onPress={this.onDetailPress} />}
 
 					<List
 						data={ArtistsReversed.filter((el) => el != null).map((el, order) => ({ ...el, order }))}
-						renderItem={ArtistItem}
+						renderItem={ArtistItemWithEvent}
 						onEndReachedThreshold={0.5}
 						onEndReached={() => this.setState((prev) => ({ Count: prev.Count + 30 }))}
 					/>

@@ -9,6 +9,7 @@ import { GetArtistById } from '../../../Api/Music/Music';
 class ArtistItemClass extends React.PureComponent {
 	static propTypes = {
 		id: PropTypes.string.isRequired,
+		OnItemClick: PropTypes.func.isRequired,
 	}
 
 	constructor(props) {
@@ -38,11 +39,9 @@ class ArtistItemClass extends React.PureComponent {
 	}
 
 	onPress = async () => {
-		// const { ApiResult } = this.state;
-		// const { id } = this.props;
-		// if (ApiResult) {
-
-		// }
+		const { OnItemClick } = this.props;
+		const { ApiResult } = this.state;
+		if (ApiResult) { OnItemClick(ApiResult._id); }
 	}
 
 	render() {
@@ -84,9 +83,10 @@ class ArtistItemClass extends React.PureComponent {
 }
 
 //! Weird
-export const ArtistItem = ({ item }) => (
+export const ArtistItem = ({ item, OnItemClick }) => (
 	<ArtistItemClass
 		id={item.id}
+		OnItemClick={OnItemClick}
 	/>
 );
 
@@ -94,4 +94,5 @@ ArtistItem.propTypes = {
 	item: PropTypes.shape({
 		id: PropTypes.string,
 	}).isRequired,
+	OnItemClick: PropTypes.func.isRequired,
 };
