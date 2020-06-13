@@ -34,3 +34,20 @@ export function SearchAlbum(query) {
 			.catch((err) => reject(err));
 	});
 }
+
+export function SearchArtist(query) {
+	return new Promise((resolve, reject) => {
+		GetApiAddress()
+			.then((url) => {
+				Axios.get(`${url}/Music/Search/Artist/Name/${query}`)
+					.then((res) => {
+						resolve(res.data);
+					})
+					.catch((err) => {
+						console.warn(err);
+						reject(err);
+					});
+			})
+			.catch((err) => reject(err));
+	});
+}

@@ -4,9 +4,9 @@ import {
 	ListItem, Avatar,
 } from '@ui-kitten/components';
 import { ImageBackground } from 'react-native';
-import { GetAlbumById } from '../../../Api/Music/Music';
+import { GetArtistById } from '../../../Api/Music/Music';
 
-class AlbumItemClass extends React.PureComponent {
+class ArtistItemClass extends React.PureComponent {
 	static propTypes = {
 		id: PropTypes.string.isRequired,
 	}
@@ -22,7 +22,7 @@ class AlbumItemClass extends React.PureComponent {
 	componentDidMount() {
 		this._IsMounted = true;
 		const { id } = this.props;
-		GetAlbumById(id)
+		GetArtistById(id)
 			.then((ApiResult) => {
 				if (this._IsMounted) {
 					this.setState({
@@ -48,28 +48,22 @@ class AlbumItemClass extends React.PureComponent {
 	render() {
 		const { ApiResult } = this.state;
 
-		let AlbumImage;
+		let ArtistImage;
 
 		if (ApiResult) {
-			if (ApiResult.ImagePathDeezer || ApiResult.Image) {
-				AlbumImage = () => (
+			if (ApiResult.ImagePath) {
+				ArtistImage = () => (
 					<Avatar
 						ImageComponent={ImageBackground}
-						shape="rounded"
-						source={{
-							uri: ApiResult.ImagePathDeezer
-								? ApiResult.ImagePathDeezer
-								: `data:image/jpeg;base64,${ApiResult.Image.toString(
-									'base64',
-								)}`,
-						}}
+						shape="round"
+						source={{ uri: ApiResult.ImagePath }}
 					/>
 				);
 			} else {
-				AlbumImage = () => (
+				ArtistImage = () => (
 					<Avatar
 						ImageComponent={ImageBackground}
-						shape="rounded"
+						shape="round"
 						source={require('../../../Assets/noMusic.jpg')}
 					/>
 				);
@@ -83,20 +77,20 @@ class AlbumItemClass extends React.PureComponent {
 				level="2"
 				onPress={this.onPress}
 				title={ApiResult ? ApiResult.Name : 'Loading'}
-				accessoryLeft={ApiResult ? AlbumImage : undefined}
+				accessoryLeft={ApiResult ? ArtistImage : undefined}
 			/>
 		);
 	}
 }
 
 //! Weird
-export const AlbumItem = ({ item }) => (
-	<AlbumItemClass
+export const ArtistItem = ({ item }) => (
+	<ArtistItemClass
 		id={item.id}
 	/>
 );
 
-AlbumItem.propTypes = {
+ArtistItem.propTypes = {
 	item: PropTypes.shape({
 		id: PropTypes.string,
 	}).isRequired,

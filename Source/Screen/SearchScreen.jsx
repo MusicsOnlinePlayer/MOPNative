@@ -2,11 +2,13 @@ import React from 'react';
 import {
 	Icon, Input, Layout, TabView, Tab,
 } from '@ui-kitten/components';
-import { CONTEXT_SEARCH } from '../Components/Group/Extras/Constants';
-import { SearchMusic, SearchAlbum } from '../Api/Music/Search';
-import MusicGroup from '../Components/Group/MusicGroup';
 import { TopBar } from '../Navigator/TopBar';
+import { CONTEXT_SEARCH } from '../Components/Group/Extras/Constants';
+import { SearchMusic, SearchAlbum, SearchArtist } from '../Api/Music/Search';
+
+import MusicGroup from '../Components/Group/MusicGroup';
 import AlbumGroup from '../Components/Group/AlbumGroup';
+import ArtistGroup from '../Components/Group/ArtistGroup';
 
 const SearchIcon = (props) => <Icon {...props} name="search" />;
 
@@ -17,9 +19,11 @@ export class SearchScreen extends React.Component {
 			SearchValue: '',
 			MusicIds: undefined,
 			AlbumIds: undefined,
+			ArtistIds: undefined,
 
 			IsFetchingMusics: false,
 			IsFetchingAlbums: false,
+			IsFetchingArtists: false,
 
 			selectedIndex: 0,
 		};
@@ -37,8 +41,10 @@ export class SearchScreen extends React.Component {
 		this.setState({
 			MusicIds: undefined,
 			AlbumIds: undefined,
+			ArtistIds: undefined,
 			IsFetchingMusics: true,
 			IsFetchingAlbums: true,
+			IsFetchingArtists: true,
 		});
 
 		SearchMusic(SearchValue)
@@ -46,10 +52,14 @@ export class SearchScreen extends React.Component {
 				this.setState({ MusicIds, IsFetchingMusics: false });
 			})
 			.catch();
-
 		SearchAlbum(SearchValue)
 			.then((AlbumIds) => {
 				this.setState({ AlbumIds, IsFetchingAlbums: false });
+			})
+			.catch();
+		SearchArtist(SearchValue)
+			.then((ArtistIds) => {
+				this.setState({ ArtistIds, IsFetchingArtists: false });
 			})
 			.catch();
 	};
@@ -58,8 +68,10 @@ export class SearchScreen extends React.Component {
 		const {
 			MusicIds,
 			AlbumIds,
+			ArtistIds,
 			IsFetchingMusics,
 			IsFetchingAlbums,
+			IsFetchingArtists,
 			SearchValue,
 			selectedIndex,
 		} = this.state;
@@ -99,7 +111,14 @@ export class SearchScreen extends React.Component {
 									IsFetching={IsFetchingAlbums}
 								/>
 							</Tab>
-							<Tab title="Artists" />
+							<Tab title="Artists">
+								<ArtistGroup
+									DetailType="Artists"
+									ArtistIds={ArtistIds}
+									IsFetching={IsFetchingArtists}
+								/>
+
+							</Tab>
 						</TabView>
 
 					</Layout>

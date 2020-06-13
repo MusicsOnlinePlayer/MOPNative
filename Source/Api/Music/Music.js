@@ -35,6 +35,23 @@ export function GetAlbumById(id) {
 	});
 }
 
+export function GetArtistById(id) {
+	return new Promise((resolve, reject) => {
+		GetApiAddress()
+			.then((url) => {
+				Axios.get(`${url}/Music/Artist/id/${id}`)
+					.then((res) => {
+						resolve(res.data);
+					})
+					.catch((err) => {
+						console.warn(err);
+						reject(err);
+					});
+			})
+			.catch((err) => reject(err));
+	});
+}
+
 export function GetFilePathById(id, noLog = false) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
