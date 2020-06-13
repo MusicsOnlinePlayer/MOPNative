@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-	ListItem, Avatar, Text,
+	ListItem, Avatar,
 } from '@ui-kitten/components';
 import { ImageBackground } from 'react-native';
 import { GetAlbumById } from '../../../Api/Music/Music';

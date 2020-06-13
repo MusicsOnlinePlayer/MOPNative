@@ -89,7 +89,7 @@ class MusicGroup extends React.Component {
 						data={MusicsReversed.filter((el) => el != null).map((el, order) => ({ ...el, order }))}
 						renderItem={MusicItemWithEvent}
 						onEndReachedThreshold={0.5}
-						onEndReached={() => this.setState((prev) => ({ Count: prev.Count += 30 }))}
+						onEndReached={() => this.setState((prev) => ({ Count: prev.Count + 30 }))}
 					/>
 				</>
 			);

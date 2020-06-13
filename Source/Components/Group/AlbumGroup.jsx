@@ -71,7 +71,7 @@ class AlbumGroup extends React.Component {
 						data={AlbumsReversed.filter((el) => el != null).map((el, order) => ({ ...el, order }))}
 						renderItem={AlbumItem}
 						onEndReachedThreshold={0.5}
-						onEndReached={() => this.setState((prev) => ({ Count: prev.Count += 30 }))}
+						onEndReached={() => this.setState((prev) => ({ Count: prev.Count + 30 }))}
 					/>
 				</>
 			);
