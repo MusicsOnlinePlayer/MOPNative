@@ -21,8 +21,8 @@ export const SuggestionScreen = () => {
 					shouldLoadComponent={shouldLoadComponent}
 					onSelect={(index) => setSelectedIndex(index)}
 				>
-					<Tab title="History"><ViewedMusics /></Tab>
 					<Tab title="Favorites"><LikedMusics /></Tab>
+					<Tab title="History"><ViewedMusics /></Tab>
 				</TabView>
 			</Layout>
 		</>
