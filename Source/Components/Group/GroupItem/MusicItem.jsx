@@ -120,7 +120,14 @@ class MusicItemClass extends React.PureComponent {
 			Controls = () => (
 				<>
 					<LikeMusicButton defaultLikeState={ApiResult.IsLiked} onLike={() => LikeMusic(id)} />
-					{ContextType !== CONTEXT_PLAYLIST && <Button onPress={this.OnAddPress} accessoryLeft={PlusIcon} appearance="ghost" status="basic" />}
+					{ContextType !== CONTEXT_PLAYLIST && (
+						<Button
+							onPress={this.OnAddPress}
+							accessoryLeft={PlusIcon}
+							appearance="ghost"
+							status="basic"
+						/>
+					)}
 				</>
 			);
 		}
