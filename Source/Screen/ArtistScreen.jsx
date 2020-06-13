@@ -59,7 +59,7 @@ class ArtistScreen extends React.Component {
 						ShowDetailType
 						AlbumIds={AlbumsOfArtistIds}
 						IsFetching={IsFetchingAlbumsOfArtist}
-						Count={10}
+						Count={5}
 						navigation={navigation}
 					/>
 				</Layout>
