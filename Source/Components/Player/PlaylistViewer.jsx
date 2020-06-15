@@ -36,6 +36,8 @@ class PlaylistViewer extends React.Component {
 		return (
 			<Layout level="2" style={{ height: '100%' }}>
 				<MusicGroup
+					DetailType="Current Playlist"
+					ShowDetailType
 					ContextType={CONTEXT_PLAYLIST}
 					MusicIds={PlaylistIds}
 					IsFetching={IsFetching}
