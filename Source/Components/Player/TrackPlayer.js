@@ -69,9 +69,9 @@ class TrackPlayer {
 			title: MusicFromApi.Title,
 			album: MusicFromApi.Album,
 			artist: MusicFromApi.Artist,
-			artwork: MusicFromApi.ImagePathDeezer,
+			artwork: MusicFromApi.AlbumId.ImagePathDeezer,
 		});
-		const tracks = await this.GetTracksIds();
+		const tracks = await this.GetTracks();
 		this.CustomEvents.emit('TrackAdded', tracks);
 	}
 
@@ -83,17 +83,27 @@ class TrackPlayer {
 			title: item.Title,
 			album: item.Album,
 			artist: item.Artist,
-			artwork: item.ImagePathDeezer,
+			artwork: item.AlbumId.ImagePathDeezer,
 		}));
 		await RNTrackPlayer.add(MusicsWarped);
-		const tracks = await this.GetTracksIds();
+		const tracks = await this.GetTracks();
 		this.CustomEvents.emit('TrackAdded', tracks);
 		await this.Play();
 	}
 
-	GetTracksIds = async () => {
+	GetTracks = async () => {
 		const tracks = await RNTrackPlayer.getQueue();
-		return tracks.map(({ id }) => id);
+		return tracks.map(({
+			id, title, album, artist, artwork,
+		}) => ({
+			_id: id,
+			Title: title,
+			Album: album,
+			Artist: artist,
+			AlbumId: {
+				ImagePathDeezer: artwork,
+			},
+		}));
 	}
 
 	ChangePlayingTrack = async (id) => {

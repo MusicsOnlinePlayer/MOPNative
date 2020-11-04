@@ -60,9 +60,7 @@ class PlayerSmallControls extends React.Component {
 				<Avatar
 					ImageComponent={ImageBackground}
 					shape="square"
-					source={{
-						uri: ImageUrl || require('../../../Assets/noMusic.jpg'),
-					}}
+					source={ImageUrl ? { uri: ImageUrl } : require('../../../Assets/noMusic.jpg')}
 				/>
 			);
 

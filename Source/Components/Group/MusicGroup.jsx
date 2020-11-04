@@ -19,44 +19,42 @@ class MusicGroup extends React.Component {
 	static propTypes = {
 		IsFetching: PropTypes.bool.isRequired,
 		DetailType: PropTypes.string,
-		MusicIds: PropTypes.arrayOf(PropTypes.string),
+		Musics: PropTypes.arrayOf(PropTypes.shape({
+			id: PropTypes.string,
+			Title: PropTypes.string,
+			Album: PropTypes.string,
+			Artist: PropTypes.string,
+			ImagePathDeezer: PropTypes.string,
+			Image: PropTypes.string,
+		})),
 		ShowDetailType: PropTypes.bool,
 		ContextType: PropTypes.string.isRequired,
-		Reverse: PropTypes.bool,
-		Count: PropTypes.number,
+		OnEndReached: PropTypes.func,
 	}
 
 	static defaultProps = {
 		DetailType: undefined,
-		MusicIds: undefined,
+		Musics: undefined,
 		ShowDetailType: false,
-		Reverse: false,
-		Count: 10,
-	}
-
-	constructor(props) {
-		super(props);
-		this.Musics = [];
-		const { Count } = this.props;
-		this.state = {
-			Count,
-		};
-	}
-
-	onMusicDataReceived = (MusicApiResult, order) => {
-		this.Musics.push({ ...MusicApiResult, order });
+		OnEndReached: () => {},
 	}
 
 	onDetailPress = () => {
-		const MusicsOrdered = this.Musics.sort((a, b) => a.order - b.order);
-		TrackPlayer.getInstance().RemoveAllTracks();
-		TrackPlayer.getInstance().AddMultiple(MusicsOrdered);
+		const { Musics } = this.props;
+		if (Musics) {
+			TrackPlayer.getInstance().RemoveAllTracks();
+			TrackPlayer.getInstance().AddMultiple(Musics);
+		}
 	}
 
 	render() {
-		const { Count } = this.state;
 		const {
-			IsFetching, DetailType, MusicIds, ShowDetailType, ContextType, Reverse,
+			IsFetching,
+			DetailType,
+			Musics,
+			ShowDetailType,
+			ContextType,
+			OnEndReached,
 		} = this.props;
 
 		if (IsFetching) {
@@ -69,27 +67,22 @@ class MusicGroup extends React.Component {
 				</>
 			);
 		}
-
-		if (MusicIds) {
-			const MusicItemWithEvent = (props) => (
-				<MusicItem
-					{...props}
-					onDataReceived={this.onMusicDataReceived}
-				/>
+		if (Musics) {
+			const MusicItemWithEvent = ({ item }) => (
+				<MusicItem {...item} />
 			);
 
-			const Musics = MusicIds.map((id) => ({ ContextType, id }));
-			const MusicsReversed = Reverse ? [...Musics].reverse() : Musics;
-			MusicsReversed.length = Count;
+			const MusicsList = Musics.map((m) => ({ ContextType, ...m }));
+
 			return (
 				<>
 					{!ShowDetailType || <ListItem title={DetailType} level="2" onPress={this.onDetailPress} />}
 
 					<List
-						data={MusicsReversed.filter((el) => el != null).map((el, order) => ({ ...el, order }))}
+						data={MusicsList}
 						renderItem={MusicItemWithEvent}
 						onEndReachedThreshold={0.5}
-						onEndReached={() => this.setState((prev) => ({ Count: prev.Count + 30 }))}
+						onEndReached={OnEndReached}
 					/>
 				</>
 			);
@@ -98,6 +91,5 @@ class MusicGroup extends React.Component {
 		return <></>;
 	}
 }
-
 
 export default MusicGroup;

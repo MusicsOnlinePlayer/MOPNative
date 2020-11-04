@@ -69,11 +69,11 @@ export function GetFilePathById(id, noLog = false) {
 	});
 }
 
-export function GetLikedMusics() {
+export function GetLikedMusics(Page = 0, PerPage = 10) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
 			.then((url) => {
-				Axios.get(`${url}/User/LikedMusics`)
+				Axios.get(`${url}/User/LikedMusics?Page=${Page}&PerPage=${PerPage}`)
 					.then((res) => {
 						resolve(res.data);
 					})
@@ -86,11 +86,11 @@ export function GetLikedMusics() {
 	});
 }
 
-export function GetViewedMusics() {
+export function GetViewedMusics(Page = 0, PerPage = 10) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
 			.then((url) => {
-				Axios.get(`${url}/User/ViewedMusics`)
+				Axios.get(`${url}/User/ViewedMusics?Page=${Page}&PerPage=${PerPage}`)
 					.then((res) => {
 						resolve(res.data);
 					})

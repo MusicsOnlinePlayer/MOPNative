@@ -22,9 +22,9 @@ export class SearchScreen extends React.Component {
 		super(props);
 		this.state = {
 			SearchValue: '',
-			MusicIds: undefined,
-			AlbumIds: undefined,
-			ArtistIds: undefined,
+			Musics: undefined,
+			Albums: undefined,
+			Artists: undefined,
 
 			IsFetchingMusics: false,
 			IsFetchingAlbums: false,
@@ -44,36 +44,36 @@ export class SearchScreen extends React.Component {
 		const { SearchValue } = this.state;
 
 		this.setState({
-			MusicIds: undefined,
-			AlbumIds: undefined,
-			ArtistIds: undefined,
+			Musics: undefined,
+			Albums: undefined,
+			Artists: undefined,
 			IsFetchingMusics: true,
 			IsFetchingAlbums: true,
 			IsFetchingArtists: true,
 		});
 
 		SearchMusic(SearchValue)
-			.then((MusicIds) => {
-				this.setState({ MusicIds, IsFetchingMusics: false });
+			.then((Musics) => {
+				this.setState({ Musics, IsFetchingMusics: false });
 			})
 			.catch();
-		SearchAlbum(SearchValue)
-			.then((AlbumIds) => {
-				this.setState({ AlbumIds, IsFetchingAlbums: false });
-			})
-			.catch();
-		SearchArtist(SearchValue)
-			.then((ArtistIds) => {
-				this.setState({ ArtistIds, IsFetchingArtists: false });
-			})
-			.catch();
+		// SearchAlbum(SearchValue)
+		// 	.then((Albums) => {
+		// 		this.setState({ Albums, IsFetchingAlbums: false });
+		// 	})
+		// 	.catch();
+		// SearchArtist(SearchValue)
+		// 	.then((Artists) => {
+		// 		this.setState({ Artists, IsFetchingArtists: false });
+		// 	})
+		// 	.catch();
 	};
 
 	render() {
 		const {
-			MusicIds,
-			AlbumIds,
-			ArtistIds,
+			Musics,
+			Albums,
+			Artists,
 			IsFetchingMusics,
 			IsFetchingAlbums,
 			IsFetchingArtists,
@@ -83,7 +83,6 @@ export class SearchScreen extends React.Component {
 		const {
 			navigation,
 		} = this.props;
-
 
 		return (
 			<>
@@ -108,7 +107,7 @@ export class SearchScreen extends React.Component {
 								<MusicGroup
 									DetailType="Musics"
 									ContextType={CONTEXT_SEARCH}
-									MusicIds={MusicIds}
+									Musics={Musics}
 									IsFetching={IsFetchingMusics}
 								/>
 
@@ -116,7 +115,7 @@ export class SearchScreen extends React.Component {
 							<Tab title="Albums">
 								<AlbumGroup
 									DetailType="Albums"
-									AlbumIds={AlbumIds}
+									Albums={Albums}
 									IsFetching={IsFetchingAlbums}
 									navigation={navigation}
 								/>
@@ -124,7 +123,7 @@ export class SearchScreen extends React.Component {
 							<Tab title="Artists">
 								<ArtistGroup
 									DetailType="Artists"
-									ArtistIds={ArtistIds}
+									Artists={Artists}
 									IsFetching={IsFetchingArtists}
 									navigation={navigation}
 								/>
