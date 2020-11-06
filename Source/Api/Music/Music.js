@@ -139,3 +139,17 @@ export function GetMusicBaseUrl() {
 			.catch((err) => reject(err));
 	});
 }
+
+export function GetValidImageUrl(url) {
+	return new Promise((resolve, reject) => {
+		if (url.includes('/')) {
+			resolve(url);
+		} else {
+			GetApiAddress()
+				.then((mopUrl) => {
+					resolve(`${mopUrl}/${url}`);
+				})
+				.catch((err) => reject(err));
+		}
+	});
+}

@@ -4,34 +4,31 @@ import {
 	ListItem, Avatar,
 } from '@ui-kitten/components';
 import { ImageBackground } from 'react-native';
-import { GetArtistById } from '../../../Api/Music/Music';
+import { GetValidImageUrl } from '../../../Api/Music/Music';
 
 class ArtistItemClass extends React.PureComponent {
 	static propTypes = {
-		id: PropTypes.string.isRequired,
+		Artist: PropTypes.shape({
+			Name: PropTypes.string,
+			ImagePath: PropTypes.string,
+		}).isRequired,
 		OnItemClick: PropTypes.func.isRequired,
 	}
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			ApiResult: undefined,
+			ArtistImageUrl: props.Artist.ImagePath,
 		};
 		this._IsMounted = false;
 	}
 
 	componentDidMount() {
+		const { Artist } = this.props;
 		this._IsMounted = true;
-		const { id } = this.props;
-		GetArtistById(id)
-			.then((ApiResult) => {
-				if (this._IsMounted) {
-					this.setState({
-						ApiResult,
-					});
-				}
-			})
-			.catch();
+		if (Artist.ImagePath) {
+			GetValidImageUrl(Artist.ImagePath).then((ArtistImageUrl) => this.setState({ ArtistImageUrl }));
+		}
 	}
 
 	componentWillUnmount() {
@@ -39,44 +36,41 @@ class ArtistItemClass extends React.PureComponent {
 	}
 
 	onPress = async () => {
-		const { OnItemClick } = this.props;
-		const { ApiResult } = this.state;
-		if (ApiResult) { OnItemClick(ApiResult._id); }
+		const { OnItemClick, Artist } = this.props;
+		OnItemClick(Artist);
 	}
 
 	render() {
-		const { ApiResult } = this.state;
+		const { ArtistImageUrl } = this.state;
+		const { Artist } = this.props;
 
 		let ArtistImage;
 
-		if (ApiResult) {
-			if (ApiResult.ImagePath) {
-				ArtistImage = () => (
-					<Avatar
-						ImageComponent={ImageBackground}
-						shape="round"
-						source={{ uri: ApiResult.ImagePath }}
-					/>
-				);
-			} else {
-				ArtistImage = () => (
-					<Avatar
-						ImageComponent={ImageBackground}
-						shape="round"
-						source={require('../../../Assets/noMusic.jpg')}
-					/>
-				);
-			}
+		if (Artist.ImagePath) {
+			ArtistImage = () => (
+				<Avatar
+					ImageComponent={ImageBackground}
+					shape="round"
+					source={{ uri: ArtistImageUrl }}
+				/>
+			);
+		} else {
+			ArtistImage = () => (
+				<Avatar
+					ImageComponent={ImageBackground}
+					shape="round"
+					source={require('../../../Assets/noMusic.jpg')}
+				/>
+			);
 		}
-
 
 		return (
 			<ListItem
 				style={{ backgroundColor: 'transparent' }}
 				level="2"
 				onPress={this.onPress}
-				title={ApiResult ? ApiResult.Name : 'Loading'}
-				accessoryLeft={ApiResult ? ArtistImage : undefined}
+				title={Artist.Name}
+				accessoryLeft={ArtistImage}
 			/>
 		);
 	}
@@ -85,14 +79,13 @@ class ArtistItemClass extends React.PureComponent {
 //! Weird
 export const ArtistItem = ({ item, OnItemClick }) => (
 	<ArtistItemClass
-		id={item.id}
+		Artist={item}
 		OnItemClick={OnItemClick}
 	/>
 );
 
 ArtistItem.propTypes = {
 	item: PropTypes.shape({
-		id: PropTypes.string,
 	}).isRequired,
 	OnItemClick: PropTypes.func.isRequired,
 };

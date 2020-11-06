@@ -39,7 +39,7 @@ export function SearchArtist(query) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
 			.then((url) => {
-				Axios.get(`${url}/Music/Search/Artist/Name/${query}`)
+				Axios.get(`${url}/Music/Search/Artist/Name/${query}?Page=0&PerPage=8`)
 					.then((res) => {
 						resolve(res.data);
 					})

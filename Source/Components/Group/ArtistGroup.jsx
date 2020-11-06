@@ -18,10 +18,10 @@ class ArtistGroup extends React.Component {
 	static propTypes = {
 		IsFetching: PropTypes.bool.isRequired,
 		DetailType: PropTypes.string,
-		ArtistIds: PropTypes.arrayOf(PropTypes.string),
+		Artists: PropTypes.arrayOf(PropTypes.shape({
+
+		})),
 		ShowDetailType: PropTypes.bool,
-		Reverse: PropTypes.bool,
-		Count: PropTypes.number,
 		navigation: PropTypes.shape({
 			navigate: PropTypes.func,
 		}).isRequired,
@@ -29,29 +29,18 @@ class ArtistGroup extends React.Component {
 
 	static defaultProps = {
 		DetailType: undefined,
-		ArtistIds: undefined,
+		Artists: undefined,
 		ShowDetailType: false,
-		Reverse: false,
-		Count: 10,
 	}
 
-	constructor(props) {
-		super(props);
-		const { Count } = this.props;
-		this.state = {
-			Count,
-		};
-	}
-
-	OnItemClick = (ArtistId) => {
+	OnItemClick = (Artist) => {
 		const { navigation } = this.props;
-		navigation.navigate('Artist', { ArtistId });
+		navigation.navigate('Artist', { Artist });
 	}
 
 	render() {
-		const { Count } = this.state;
 		const {
-			IsFetching, DetailType, ArtistIds, ShowDetailType, Reverse,
+			IsFetching, DetailType, Artists, ShowDetailType,
 		} = this.props;
 
 		if (IsFetching) {
@@ -65,11 +54,7 @@ class ArtistGroup extends React.Component {
 			);
 		}
 
-		if (ArtistIds) {
-			const Artists = ArtistIds.map((id) => ({ id }));
-			const ArtistsReversed = Reverse ? [...Artists].reverse() : Artists;
-			ArtistsReversed.length = Count;
-
+		if (Artists) {
 			const ArtistItemWithEvent = (props) => (
 				<ArtistItem
 					{...props}
@@ -82,10 +67,10 @@ class ArtistGroup extends React.Component {
 					{!ShowDetailType || <ListItem title={DetailType} level="2" onPress={this.onDetailPress} />}
 
 					<List
-						data={ArtistsReversed.filter((el) => el != null).map((el, order) => ({ ...el, order }))}
+						data={Artists}
 						renderItem={ArtistItemWithEvent}
 						onEndReachedThreshold={0.5}
-						onEndReached={() => this.setState((prev) => ({ Count: prev.Count + 30 }))}
+						onEndReached={() => {}}
 					/>
 				</>
 			);
@@ -94,6 +79,5 @@ class ArtistGroup extends React.Component {
 		return <></>;
 	}
 }
-
 
 export default ArtistGroup;

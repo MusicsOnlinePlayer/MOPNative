@@ -60,13 +60,13 @@ export class SearchScreen extends React.Component {
 		SearchAlbum(SearchValue)
 			.then((Albums) => {
 				this.setState({ Albums, IsFetchingAlbums: false });
-			});
-		// 	.catch();
-		// SearchArtist(SearchValue)
-		// 	.then((Artists) => {
-		// 		this.setState({ Artists, IsFetchingArtists: false });
-		// 	})
-		// 	.catch();
+			})
+			.catch();
+		SearchArtist(SearchValue)
+			.then((Artists) => {
+				this.setState({ Artists, IsFetchingArtists: false });
+			})
+			.catch();
 	};
 
 	render() {
