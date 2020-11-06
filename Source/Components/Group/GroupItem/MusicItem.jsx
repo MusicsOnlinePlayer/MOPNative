@@ -13,7 +13,7 @@ const PlusIcon = (props) => <Icon {...props} name="plus-outline" />;
 
 export class MusicItem extends React.PureComponent {
 	static propTypes = {
-		id: PropTypes.string.isRequired,
+		_id: PropTypes.string.isRequired,
 		Title: PropTypes.string.isRequired,
 		Album: PropTypes.string.isRequired,
 		Artist: PropTypes.string.isRequired,
@@ -41,7 +41,7 @@ export class MusicItem extends React.PureComponent {
 	}
 
 	onPress = async () => {
-		const { ContextType, id } = this.props;
+		const { ContextType, _id } = this.props;
 		if (ContextType !== CONTEXT_PLAYLIST) {
 			this.setState({ IsLoadingFilePath: true });
 
@@ -50,25 +50,22 @@ export class MusicItem extends React.PureComponent {
 			}
 			this.setState({ IsLoadingFilePath: false });
 		} else {
-			TrackPlayer.getInstance().ChangePlayingTrack(id);
+			TrackPlayer.getInstance().ChangePlayingTrack(_id);
 		}
 	}
 
 	OnAddPress = async () => {
-		const { ApiResult } = this.state;
-		if (ApiResult) {
-			this.setState({ IsLoadingFilePath: true });
-			if (this._IsMounted) {
-				await TrackPlayer.getInstance().Add(this.props);
-			}
-			this.setState({ IsLoadingFilePath: false });
+		this.setState({ IsLoadingFilePath: true });
+		if (this._IsMounted) {
+			await TrackPlayer.getInstance().Add(this.props);
 		}
+		this.setState({ IsLoadingFilePath: false });
 	}
 
 	render() {
 		const { IsLoadingFilePath } = this.state;
 		const {
-			id,
+			_id,
 			ContextType,
 			Title,
 			Artist,
@@ -109,7 +106,7 @@ export class MusicItem extends React.PureComponent {
 		// TODO Implement likeState
 		const Controls = () => (
 			<>
-				<LikeMusicButton defaultLikeState={false} onLike={() => LikeMusic(id)} />
+				<LikeMusicButton defaultLikeState={false} onLike={() => LikeMusic(_id)} />
 				{ContextType !== CONTEXT_PLAYLIST && (
 					<Button
 						onPress={this.OnAddPress}
