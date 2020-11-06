@@ -18,10 +18,10 @@ class AlbumGroup extends React.Component {
 	static propTypes = {
 		IsFetching: PropTypes.bool.isRequired,
 		DetailType: PropTypes.string,
-		AlbumIds: PropTypes.arrayOf(PropTypes.string),
+		Albums: PropTypes.arrayOf(PropTypes.shape({
+
+		})),
 		ShowDetailType: PropTypes.bool,
-		Reverse: PropTypes.bool,
-		Count: PropTypes.number,
 		navigation: PropTypes.shape({
 			navigate: PropTypes.func,
 		}).isRequired,
@@ -29,29 +29,18 @@ class AlbumGroup extends React.Component {
 
 	static defaultProps = {
 		DetailType: undefined,
-		AlbumIds: undefined,
 		ShowDetailType: false,
-		Reverse: false,
-		Count: 10,
+		Albums: undefined,
 	}
 
-	constructor(props) {
-		super(props);
-		const { Count } = this.props;
-		this.state = {
-			Count,
-		};
-	}
-
-	OnItemClick = (AlbumId) => {
+	OnItemClick = (Album) => {
 		const { navigation } = this.props;
-		navigation.navigate('Album', { AlbumId });
+		navigation.navigate('Album', { Album });
 	}
 
 	render() {
-		const { Count } = this.state;
 		const {
-			IsFetching, DetailType, AlbumIds, ShowDetailType, Reverse,
+			IsFetching, DetailType, Albums, ShowDetailType,
 		} = this.props;
 
 		if (IsFetching) {
@@ -65,11 +54,7 @@ class AlbumGroup extends React.Component {
 			);
 		}
 
-		if (AlbumIds) {
-			const Albums = AlbumIds.map((id) => ({ id }));
-			const AlbumsReversed = Reverse ? [...Albums].reverse() : Albums;
-			AlbumsReversed.length = Count;
-
+		if (Albums) {
 			const AlbumItemWithEvent = (props) => <AlbumItem {...props} OnItemClick={this.OnItemClick} />;
 
 			return (
@@ -77,10 +62,10 @@ class AlbumGroup extends React.Component {
 					{!ShowDetailType || <ListItem title={DetailType} level="2" onPress={this.onDetailPress} />}
 
 					<List
-						data={AlbumsReversed.filter((el) => el != null).map((el, order) => ({ ...el, order }))}
+						data={Albums}
 						renderItem={AlbumItemWithEvent}
 						onEndReachedThreshold={0.5}
-						onEndReached={() => this.setState((prev) => ({ Count: prev.Count + 30 }))}
+						onEndReached={() => {}}
 					/>
 				</>
 			);
@@ -89,6 +74,5 @@ class AlbumGroup extends React.Component {
 		return <></>;
 	}
 }
-
 
 export default AlbumGroup;

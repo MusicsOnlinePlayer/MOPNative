@@ -4,34 +4,24 @@ import {
 	ListItem, Avatar,
 } from '@ui-kitten/components';
 import { ImageBackground } from 'react-native';
-import { GetAlbumById } from '../../../Api/Music/Music';
 
 class AlbumItemClass extends React.PureComponent {
 	static propTypes = {
-		id: PropTypes.string.isRequired,
+		Album: PropTypes.shape({
+			Name: PropTypes.string,
+			ImagePathDeezer: PropTypes.string,
+			Image: PropTypes.string,
+		}).isRequired,
 		OnItemClick: PropTypes.func.isRequired,
 	}
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			ApiResult: undefined,
-		};
 		this._IsMounted = false;
 	}
 
 	componentDidMount() {
 		this._IsMounted = true;
-		const { id } = this.props;
-		GetAlbumById(id)
-			.then((ApiResult) => {
-				if (this._IsMounted) {
-					this.setState({
-						ApiResult,
-					});
-				}
-			})
-			.catch();
 	}
 
 	componentWillUnmount() {
@@ -39,50 +29,46 @@ class AlbumItemClass extends React.PureComponent {
 	}
 
 	onPress = async () => {
-		const { OnItemClick } = this.props;
-		const { ApiResult } = this.state;
-		if (ApiResult) { OnItemClick(ApiResult._id); }
+		const { OnItemClick, Album } = this.props;
+		OnItemClick(Album);
 	}
 
 	render() {
-		const { ApiResult } = this.state;
+		const { Album } = this.props;
 
 		let AlbumImage;
 
-		if (ApiResult) {
-			if (ApiResult.ImagePathDeezer || ApiResult.Image) {
-				AlbumImage = () => (
-					<Avatar
-						ImageComponent={ImageBackground}
-						shape="rounded"
-						source={{
-							uri: ApiResult.ImagePathDeezer
-								? ApiResult.ImagePathDeezer
-								: `data:image/jpeg;base64,${ApiResult.Image.toString(
-									'base64',
-								)}`,
-						}}
-					/>
-				);
-			} else {
-				AlbumImage = () => (
-					<Avatar
-						ImageComponent={ImageBackground}
-						shape="rounded"
-						source={require('../../../Assets/noMusic.jpg')}
-					/>
-				);
-			}
+		if (Album.ImagePathDeezer || Album.Image) {
+			AlbumImage = () => (
+				<Avatar
+					ImageComponent={ImageBackground}
+					shape="rounded"
+					source={{
+						uri: Album.ImagePathDeezer
+							? Album.ImagePathDeezer
+							: `data:image/jpeg;base64,${Album.Image.toString(
+								'base64',
+							)}`,
+					}}
+				/>
+			);
+		} else {
+			AlbumImage = () => (
+				<Avatar
+					ImageComponent={ImageBackground}
+					shape="rounded"
+					source={require('../../../Assets/noMusic.jpg')}
+				/>
+			);
 		}
-
 
 		return (
 			<ListItem
 				style={{ backgroundColor: 'transparent' }}
 				level="2"
 				onPress={this.onPress}
-				title={ApiResult ? ApiResult.Name : 'Loading'}
-				accessoryLeft={ApiResult ? AlbumImage : undefined}
+				title={Album.Name}
+				accessoryLeft={AlbumImage}
 			/>
 		);
 	}
@@ -91,14 +77,12 @@ class AlbumItemClass extends React.PureComponent {
 //! Weird
 export const AlbumItem = ({ item, OnItemClick }) => (
 	<AlbumItemClass
-		id={item.id}
+		Album={item}
 		OnItemClick={OnItemClick}
 	/>
 );
 
 AlbumItem.propTypes = {
-	item: PropTypes.shape({
-		id: PropTypes.string,
-	}).isRequired,
+	item: PropTypes.shape(PropTypes.any).isRequired,
 	OnItemClick: PropTypes.func.isRequired,
 };

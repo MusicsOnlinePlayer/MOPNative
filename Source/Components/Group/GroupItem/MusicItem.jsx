@@ -15,7 +15,6 @@ export class MusicItem extends React.PureComponent {
 	static propTypes = {
 		_id: PropTypes.string.isRequired,
 		Title: PropTypes.string.isRequired,
-		Album: PropTypes.string.isRequired,
 		Artist: PropTypes.string.isRequired,
 		AlbumId: PropTypes.shape({
 			ImagePathDeezer: PropTypes.string,

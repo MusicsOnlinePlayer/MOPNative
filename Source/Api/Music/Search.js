@@ -22,7 +22,7 @@ export function SearchAlbum(query) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
 			.then((url) => {
-				Axios.get(`${url}/Music/Search/Album/Name/${query}`)
+				Axios.get(`${url}/Music/Search/Album/Name/${query}?Page=0&PerPage=8`)
 					.then((res) => {
 						resolve(res.data);
 					})
