@@ -27,7 +27,8 @@ class ArtistItemClass extends React.PureComponent {
 		const { Artist } = this.props;
 		this._IsMounted = true;
 		if (Artist.ImagePath) {
-			GetValidImageUrl(Artist.ImagePath).then((ArtistImageUrl) => this.setState({ ArtistImageUrl }));
+			GetValidImageUrl(Artist.ImagePath)
+				.then((ArtistImageUrl) => this.setState({ ArtistImageUrl }));
 		}
 	}
 

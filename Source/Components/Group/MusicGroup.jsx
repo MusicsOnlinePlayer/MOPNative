@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 
 class MusicGroup extends React.Component {
 	static propTypes = {
-		IsFetching: PropTypes.bool.isRequired,
+		IsFetching: PropTypes.bool,
 		DetailType: PropTypes.string,
 		Musics: PropTypes.arrayOf(PropTypes.shape({
 			id: PropTypes.string,
@@ -27,6 +27,8 @@ class MusicGroup extends React.Component {
 			ImagePathDeezer: PropTypes.string,
 			Image: PropTypes.string,
 		})),
+		CommonImage: PropTypes.string,
+		CommonImageDz: PropTypes.string,
 		ShowDetailType: PropTypes.bool,
 		ContextType: PropTypes.string.isRequired,
 		OnEndReached: PropTypes.func,
@@ -35,7 +37,10 @@ class MusicGroup extends React.Component {
 	static defaultProps = {
 		DetailType: undefined,
 		Musics: undefined,
+		CommonImage: undefined,
+		CommonImageDz: undefined,
 		ShowDetailType: false,
+		IsFetching: false,
 		OnEndReached: () => {},
 	}
 
@@ -55,6 +60,8 @@ class MusicGroup extends React.Component {
 			ShowDetailType,
 			ContextType,
 			OnEndReached,
+			CommonImage,
+			CommonImageDz,
 		} = this.props;
 
 		if (IsFetching) {
@@ -72,7 +79,16 @@ class MusicGroup extends React.Component {
 				<MusicItem {...item} />
 			);
 
-			const MusicsList = Musics.map((m) => ({ ContextType, ...m }));
+			const MusicsList = Musics.map((m) => {
+				const Music = m;
+				if (CommonImage || CommonImageDz) {
+					Music.AlbumId = {
+						Image: CommonImage,
+						ImagePathDeezer: CommonImageDz,
+					};
+				}
+				return ({ ContextType, ...Music });
+			});
 
 			return (
 				<>
