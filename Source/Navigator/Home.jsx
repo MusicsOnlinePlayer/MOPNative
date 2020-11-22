@@ -8,11 +8,11 @@ import {
 } from '@ui-kitten/components';
 import { View } from 'react-native';
 import { PlayerOverlay } from '../Components/Player/PlayerOverlay';
-import { SearchScreen } from '../Screen/SearchScreen';
 import { AccountScreen } from '../Screen/AccountScreen';
 import { SuggestionScreen } from '../Screen/SuggestionScreen';
 import { PreferenceScreen } from '../Screen/PreferenceScreen';
 import { PlayerScreen } from '../Screen/PlayerScreen';
+import MusicExplorer from './MusicExplorer';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -65,7 +65,7 @@ export const HomeNavigator = () => (
 		{...useBottomNavigationState()}
 		tabBar={(props) => <BottomTabBar {...props} />}
 	>
-		<Screen name="Search" component={SearchScreen} />
+		<Screen name="MusicExplorer" component={MusicExplorer} />
 		<Screen name="Suggestion" component={SuggestionScreen} />
 		<Screen name="Player" component={PlayerScreen} />
 		<Screen name="Account" component={AccountScreen} />
