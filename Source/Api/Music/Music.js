@@ -18,11 +18,11 @@ export function GetMusicById(id) {
 	});
 }
 
-export function GetAlbumById(id, getAll = false) {
+export function GetAlbumById(id) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
 			.then((url) => {
-				Axios.get(`${url}/Music/Album/id/${id}${getAll ? '?mode=all' : ''}`)
+				Axios.get(`${url}/Music/Album/id/${id}`)
 					.then((res) => {
 						resolve(res.data);
 					})

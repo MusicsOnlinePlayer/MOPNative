@@ -35,7 +35,7 @@ class ArtistGroup extends React.Component {
 
 	OnItemClick = (Artist) => {
 		const { navigation } = this.props;
-		navigation.navigate('Artist', { Artist });
+		navigation.navigate('Artist', { ArtistId: Artist._id });
 	}
 
 	render() {

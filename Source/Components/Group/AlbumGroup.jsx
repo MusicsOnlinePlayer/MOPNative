@@ -35,7 +35,7 @@ class AlbumGroup extends React.Component {
 
 	OnItemClick = (Album) => {
 		const { navigation } = this.props;
-		navigation.navigate('Album', { Album });
+		navigation.navigate('Album', { AlbumId: Album._id });
 	}
 
 	render() {

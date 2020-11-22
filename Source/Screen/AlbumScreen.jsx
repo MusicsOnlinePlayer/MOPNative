@@ -1,24 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Layout } from '@ui-kitten/components';
+import { useAlbumById } from '../Api/Hooks/AlbumHooks';
 import { CONTEXT_SEARCH } from '../Components/Group/Extras/Constants';
 import { TopBar } from '../Navigator/TopBar';
 import MusicGroup from '../Components/Group/MusicGroup';
 
 const AlbumScreen = ({ route }) => {
 	const {
-		Album,
+		AlbumId,
 	} = route.params;
+
+	const { album, hasError } = useAlbumById(AlbumId);
 
 	return (
 		<>
 			<TopBar subtitle="Album" />
 			<Layout level="2" style={{ height: '100%' }}>
+
 				<MusicGroup
-					DetailType={Album.Name}
-					Musics={Album.MusicsId}
-					CommonImage={Album.Image}
-					CommonImageDz={Album.ImagePathDeezer}
+					DetailType={album && album.Name}
+					Musics={album && album.MusicsId}
+					CommonImage={album && album.Image}
+					CommonImageDz={album && album.ImagePathDeezer}
+					IsFetching={album === undefined}
 					ShowDetailType
 					ContextType={CONTEXT_SEARCH}
 				/>
@@ -30,12 +35,7 @@ const AlbumScreen = ({ route }) => {
 AlbumScreen.propTypes = {
 	route: PropTypes.shape({
 		params: PropTypes.shape({
-			Album: PropTypes.shape({
-				Name: PropTypes.string,
-				MusicsId: PropTypes.arrayOf(PropTypes.any),
-				Image: PropTypes.string,
-				ImagePathDeezer: PropTypes.string,
-			}).isRequired,
+			AlbumId: PropTypes.string.isRequired,
 		}).isRequired,
 	}).isRequired,
 };
