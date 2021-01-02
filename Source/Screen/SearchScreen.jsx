@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
 	Icon, Input, Layout, TabView, Tab,
 } from '@ui-kitten/components';
-import { TopBar } from '../Navigator/TopBar';
+import { TopBar } from '../Navigator/TopBar/TopBar';
 import { CONTEXT_SEARCH } from '../Components/Group/Extras/Constants';
 import { SearchMusic, SearchAlbum, SearchArtist } from '../Api/Music/Search';
 

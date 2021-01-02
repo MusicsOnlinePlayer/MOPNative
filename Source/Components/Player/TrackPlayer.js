@@ -34,6 +34,7 @@ class TrackPlayer {
 			capabilities,
 			compactCapabilities: capabilities,
 			alwaysPauseOnInterruption: true,
+			stopWithApp: true,
 		};
 
 		RNTrackPlayer.updateOptions(options);

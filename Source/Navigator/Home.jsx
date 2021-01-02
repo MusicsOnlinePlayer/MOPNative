@@ -8,19 +8,17 @@ import {
 } from '@ui-kitten/components';
 import { View } from 'react-native';
 import { PlayerOverlay } from '../Components/Player/PlayerOverlay';
-import { AccountScreen } from '../Screen/AccountScreen';
 import { SuggestionScreen } from '../Screen/SuggestionScreen';
 import { PreferenceScreen } from '../Screen/PreferenceScreen';
 import { PlayerScreen } from '../Screen/PlayerScreen';
 import MusicExplorer from './MusicExplorer';
+import Header from './TopBar/Header';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
 const SearchIcon = (props) => <Icon {...props} name="search-outline" />;
 
 const SuggestionIcon = (props) => <Icon {...props} name="bulb-outline" />;
-
-const AccountIcon = (props) => <Icon {...props} name="person-outline" />;
 
 const SettingsIcon = (props) => <Icon {...props} name="settings-outline" />;
 
@@ -44,7 +42,6 @@ const BottomTabBar = ({ navigation, state }) => (
 			<BottomNavigationTab icon={SearchIcon} />
 			<BottomNavigationTab icon={SuggestionIcon} />
 			<BottomNavigationTab icon={PlaylistIcon} />
-			<BottomNavigationTab icon={AccountIcon} />
 			<BottomNavigationTab icon={SettingsIcon} />
 		</BottomNavigation>
 	</>
@@ -66,9 +63,8 @@ export const HomeNavigator = () => (
 		tabBar={(props) => <BottomTabBar {...props} />}
 	>
 		<Screen name="MusicExplorer" component={MusicExplorer} />
-		<Screen name="Suggestion" component={SuggestionScreen} />
-		<Screen name="Player" component={PlayerScreen} />
-		<Screen name="Account" component={AccountScreen} />
-		<Screen name="Preference" component={PreferenceScreen} />
+		<Screen name="Suggestion" component={SuggestionScreen} options={{ header: Header }} />
+		<Screen name="Player" component={PlayerScreen} options={{ header: Header }} />
+		<Screen name="Preference" component={PreferenceScreen} options={{ header: Header }} />
 	</Navigator>
 );

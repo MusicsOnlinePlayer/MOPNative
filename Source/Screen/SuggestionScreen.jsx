@@ -2,7 +2,7 @@ import React from 'react';
 import {
 	Layout, TabView, Tab,
 } from '@ui-kitten/components';
-import { TopBar } from '../Navigator/TopBar';
+import { TopBar } from '../Navigator/TopBar/TopBar';
 import { ViewedMusics } from '../Components/Group/ViewedMusics';
 import { LikedMusics } from '../Components/Group/LikedMusics';
 

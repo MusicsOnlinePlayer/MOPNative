@@ -2,7 +2,6 @@ import React from 'react';
 import { TopNavigation } from '@ui-kitten/components';
 import PropTypes from 'prop-types';
 
-
 export const TopBar = ({ title, subtitle }) => (
 	<>
 		<TopNavigation

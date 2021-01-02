@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Layout } from '@ui-kitten/components';
 import { useAlbumById } from '../Api/Hooks/AlbumHooks';
 import { CONTEXT_SEARCH } from '../Components/Group/Extras/Constants';
-import { TopBar } from '../Navigator/TopBar';
 import MusicGroup from '../Components/Group/MusicGroup';
 
 const AlbumScreen = ({ route }) => {
@@ -15,7 +14,6 @@ const AlbumScreen = ({ route }) => {
 
 	return (
 		<>
-			<TopBar subtitle="Album" />
 			<Layout level="2" style={{ height: '100%' }}>
 
 				<MusicGroup

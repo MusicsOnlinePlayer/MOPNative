@@ -6,8 +6,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
-import { HomeNavigator } from './Navigator/Home';
 import RootReducer from './Reducers/RootReducer';
+import Main from './Navigator/Main';
 
 const store = createStore(
 	RootReducer,
@@ -22,7 +22,7 @@ export default () => (
 		<IconRegistry icons={EvaIconsPack} />
 		<ApplicationProvider {...eva} theme={eva.dark}>
 			<NavigationContainer>
-				<HomeNavigator />
+				<Main />
 			</NavigationContainer>
 		</ApplicationProvider>
 	</Provider>
